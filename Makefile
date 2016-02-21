@@ -15,7 +15,7 @@ build: doc
 	R CMD build .
 
 check: build
-	-unset INTEGRATION && R CMD CHECK --as-cran httpcache_$(VERSION).tar.gz
+	-R CMD CHECK --as-cran httpcache_$(VERSION).tar.gz
     # cd httpcache.Rcheck/httpcache/doc/ && ls | grep .html | xargs -n 1 egrep "<pre><code>.. NULL" >> ../../../vignette-errors.log
 	rm -rf httpcache.Rcheck/
     # cat vignette-errors.log

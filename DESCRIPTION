@@ -10,7 +10,7 @@ Author: Neal Richardson [aut, cre]
 Maintainer: Neal Richardson <neal@crunch.io>
 URL: https://github.com/nealrichardson/httpcache
 BugReports: https://github.com/nealrichardson/httpcache/issues
-License: LGPL (>= 3)
+License: MIT + file LICENSE
 LazyLoad: yes
 Depends:
     R (>= 3.0.0)
@@ -18,7 +18,5 @@ Imports:
     httr (>= 1.0.0),
     digest
 Suggests:
-    knitr,
     testthat
-VignetteBuilder: knitr
 RoxygenNote: 5.0.1
