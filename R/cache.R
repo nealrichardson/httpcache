@@ -1,13 +1,15 @@
 ## Create the cache env
 cache <- NULL
-initCache <- function () cache <<- new.env(hash=TRUE)
+initCache <- function () {
+    cache <<- new.env(hash=TRUE)
+}
 initCache()
 
-caching <- function () isTRUE(getOption("crest.cache"))
+caching <- function () isTRUE(getOption("querycache.on"))
 
-cacheOn <- function () options(crest.cache=TRUE)
+cacheOn <- function () options(querycache.on=TRUE)
 cacheOff <- function () {
-    options(crest.cache=FALSE)
+    options(querycache.on=FALSE)
     clearCache()
 }
 clearCache <- function () {
@@ -15,12 +17,15 @@ clearCache <- function () {
     rm(list=ls(all.names=TRUE, envir=cache), envir=cache)
 }
 
-no.cache <- function () {
+uncached <- function (...) {
     ## Context manager to temporarily turn cache off if it is on
-    temp.option(crest.cache=FALSE)
+    old <- getOption("querycache.on")
+    on.exit(options(querycache.on=old))
+    options(querycache.on=FALSE)
+    eval.parent(...)
 }
 
-## deal with query params?
+## deal with query params differently?
 dropCache <- function (x) {
     ## Drop x and anything below it in the tree
     dropPattern(paste0("^", regexEscape(popQuery(x))))
@@ -29,10 +34,10 @@ dropOnly <- function (x) {
     logMessage("CACHE DROP", x)
     suppressWarnings(rm(list=x, envir=cache))
 }
-dropBelow <- function (x) {
-    ## Don't drop x, just those below it in the tree. hence ".+"
-    dropPattern(paste0("^", regexEscape(popQuery(x)), ".+"))
-}
+# dropBelow <- function (x) {
+#     ## Don't drop x, just those below it in the tree. hence ".+"
+#     dropPattern(paste0("^", regexEscape(popQuery(x)), ".+"))
+# }
 dropPattern <- function (x, escape=TRUE) {
     logMessage("CACHE DROP", x)
     rm(list=ls(envir=cache, pattern=x), envir=cache)
@@ -65,6 +70,7 @@ GET <- function (url, ...) {
         return(get(cache.url, envir=cache))
     }
     x <- httr::GET(url, ...)
+    logMessage(responseStatusLog(x))
     if (caching() && x$status_code == 200) {
         logMessage("CACHE SET", cache.url)
         assign(cache.url, x, envir=cache)
@@ -75,6 +81,7 @@ GET <- function (url, ...) {
 ##' @importFrom httr PUT
 PUT <- function (url, ..., drop=dropCache(url)) {
     x <- httr::PUT(url, ...)
+    logMessage(responseStatusLog(x))
     force(drop)
     return(x)
 }
@@ -82,6 +89,7 @@ PUT <- function (url, ..., drop=dropCache(url)) {
 ##' @importFrom httr POST
 POST <- function (url, ..., drop=dropOnly(url)) {
     x <- httr::POST(url, ...)
+    logMessage(responseStatusLog(x))
     force(drop)
     return(x)
 }
@@ -89,6 +97,7 @@ POST <- function (url, ..., drop=dropOnly(url)) {
 ##' @importFrom httr PATCH
 PATCH <- function (url, ..., drop=dropCache(url)) {
     x <- httr::PATCH(url, ...)
+    logMessage(responseStatusLog(x))
     force(drop)
     return(x)
 }
@@ -96,6 +105,16 @@ PATCH <- function (url, ..., drop=dropCache(url)) {
 ##' @importFrom httr DELETE
 DELETE <- function (url, ..., drop=dropCache(url)) {
     x <- httr::DELETE(url, ...)
+    logMessage(responseStatusLog(x))
     force(drop)
     return(x)
+}
+
+responseStatusLog <- function (response) {
+    req <- response$request
+    return(paste("HTTP",
+        req$method,
+        req$url,
+        response$status_code,
+        response$times["total"]))
 }

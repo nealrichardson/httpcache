@@ -22,19 +22,18 @@ logMessage <- function (...) {
 ##' @export
 startLog <- function (filename, append=FALSE) {
     options(querycache.log=filename)
-    if (!append && file.exists(filename)) {
+    if (!append && nchar(filename) && file.exists(filename)) {
         file.remove(filename)
     }
 }
 
 ##' @importFrom utils read.delim
-loadLogfile <- function (filename, scope=c("CACHE", "HTTP", "BLOCK")) {
+loadLogfile <- function (filename, scope=c("CACHE", "HTTP")) {
     df <- read.delim(filename, sep=" ", header=FALSE,
         stringsAsFactors=FALSE)[,1:6]
     names(df) <- c("timestamp", "scope", "verb", "url", "status", "time")
-    df <- df[df$scope %in% scope,] ## Prune the errors and other crap
+    df <- df[df$scope %in% scope,] ## Prune out-of-scope things
     df$timestamp <- strptime(df$timestamp, "%Y-%m-%dT%H:%M:%S")
-    # df[c("scope", "verb")] <- lapply(df[c("scope", "verb")], as.factor)
     df[c("status", "time")] <- lapply(df[c("status", "time")], as.numeric)
     return(df)
 }
@@ -50,22 +49,10 @@ cacheLogSummary <- function (logdf) {
 requestLogSummary <- function (logdf) {
     total.time <- as.numeric(difftime(tail(logdf$timestamp, 1),
         head(logdf$timestamp, 1), units="secs"))
-    df <- requestsFromLog(logdf)
+    df <- logdf[logdf$scope == "HTTP",]
     counts <- table(df$verb)
     req.time <- sum(df$time, na.rm=TRUE)
     pct.http.time <- 100*req.time/total.time
     return(list(counts=counts, req.time=req.time, total.time=total.time,
         pct.http.time=pct.http.time))
-}
-
-requestsFromLog <- function (logdf) {
-    ## Remove cache hits from the GET logs. They're the next record
-    hits <- which(logdf$verb == "HIT")
-    ## If there are hits, drop the requests that are returned from cache
-    if (length(hits)) {
-        drophits <- intersect(hits + 1, which(logdf$verb == "GET"))
-        logdf <- logdf[-drophits,]
-    }
-    df <- logdf[logdf$scope == "HTTP",]
-    return(df)
 }
