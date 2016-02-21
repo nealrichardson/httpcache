@@ -34,9 +34,28 @@ test_that("PUT busts cache", {
     })
 })
 
+test_that("PATCH busts cache", {
+    without_internet({
+        ## It's in the cache
+        expect_identical(GET("https://beta.crunch.io/api/",
+            query=list(user="me"))$response, 27L)
+    })
+    ## Now bust cache
+    with_mock_HTTP({
+        expect_message(PATCH("https://beta.crunch.io/api/"),
+            "PATCH https://beta.crunch.io/api/ ")
+    })
+    ## See that it's no longer in the cache
+    expect_identical(length(ls(envir=cache)), 0L)
+    without_internet({
+        expect_error(GET("https://beta.crunch.io/api/", query=list(user="me")),
+            "GET https://beta.crunch.io/api/")
+    })
+})
+
 clearCache()
 test_that("Checking cache even with cache off doesn't fail on long query", {
-    with(no.cache(), {
+    uncached({
         with_mock_HTTP({
             z <- GET("https://beta.crunch.io/api/users/", query=list(query=rep("Q", 10000)))
         })
@@ -52,4 +71,16 @@ test_that("cache gets set on GET even with long query", {
     expect_identical(length(ls(envir=cache)), 1L)
     expect_true(any(grepl("https://beta.crunch.io/api/users/",
         ls(envir=cache), fixed=TRUE)))
+})
+
+test_that("cacheOff stops caching and clears existing cache", {
+    expect_identical(length(ls(envir=cache)), 1L)
+    cacheOff()
+    on.exit(cacheOn()) ## Turn it back on
+    expect_identical(length(ls(envir=cache)), 0L)
+    with_mock_HTTP({
+        a <- GET("https://beta.crunch.io/api/datasets")
+    })
+    expect_identical(length(ls(envir=cache)), 0L)
+    expect_identical(a$response, 35L)
 })
