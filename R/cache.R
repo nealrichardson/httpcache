@@ -5,11 +5,11 @@ initCache <- function () {
 }
 initCache()
 
-caching <- function () isTRUE(getOption("querycache.on"))
+caching <- function () isTRUE(getOption("httpcache.on"))
 
-cacheOn <- function () options(querycache.on=TRUE)
+cacheOn <- function () options(httpcache.on=TRUE)
 cacheOff <- function () {
-    options(querycache.on=FALSE)
+    options(httpcache.on=FALSE)
     clearCache()
 }
 clearCache <- function () {
@@ -19,9 +19,9 @@ clearCache <- function () {
 
 uncached <- function (...) {
     ## Context manager to temporarily turn cache off if it is on
-    old <- getOption("querycache.on")
-    on.exit(options(querycache.on=old))
-    options(querycache.on=FALSE)
+    old <- getOption("httpcache.on")
+    on.exit(options(httpcache.on=old))
+    options(httpcache.on=FALSE)
     eval.parent(...)
 }
 

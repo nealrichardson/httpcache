@@ -4,7 +4,7 @@
 ##' @return Nothing
 ##' @export
 logMessage <- function (...) {
-    logfile <- getOption("querycache.log")
+    logfile <- getOption("httpcache.log")
     if (!is.null(logfile)) {
         cat(strftime(Sys.time(), "%Y-%m-%dT%H:%M:%S"), ..., "\n", file=logfile, append=TRUE)
     }
@@ -21,7 +21,7 @@ logMessage <- function (...) {
 ##' @return Nothing.
 ##' @export
 startLog <- function (filename, append=FALSE) {
-    options(querycache.log=filename)
+    options(httpcache.log=filename)
     if (!append && nchar(filename) && file.exists(filename)) {
         file.remove(filename)
     }

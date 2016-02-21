@@ -1,19 +1,19 @@
-# querycache
+# httpcache
 
-[![Build Status](https://travis-ci.org/nealrichardson/querycache.png?branch=master)](https://travis-ci.org/nealrichardson/querycache)
+[![Build Status](https://travis-ci.org/nealrichardson/httpcache.png?branch=master)](https://travis-ci.org/nealrichardson/httpcache)
 
 Query cache for HTTP clients, with tools for cache invalidation and request logging.
 
 ## Installing
 
-`querycache` can be installed from CRAN with
+`httpcache` can be installed from CRAN with
 
-    install.packages("querycache")
+    install.packages("httpcache")
 
 The pre-release version of the package can be pulled from GitHub using the [devtools](https://github.com/hadley/devtools) package:
 
     # install.packages("devtools")
-    devtools::install_github("nealrichardson/querycache", build_vignettes=TRUE)
+    devtools::install_github("nealrichardson/httpcache", build_vignettes=TRUE)
 
 ## Getting started
 
@@ -21,10 +21,10 @@ The pre-release version of the package can be pulled from GitHub using the [devt
 
 ### Installing from a local checkout
 
-    $ R --slave -e 'install.packages(c("querycache", "codetools", "testthat"), repo="http://cran.at.r-project.org")'
+    $ R --slave -e 'install.packages(c("httpcache", "codetools", "testthat"), repo="http://cran.at.r-project.org")'
     $ make test
 
-This installs dependencies and then runs the tests, which installs `querycache` from your local checkout in the process. If the dependencies fail to install, check the error message. You may need to install libcurl on your system before installing the R packages.
+This installs dependencies and then runs the tests, which installs `httpcache` from your local checkout in the process. If the dependencies fail to install, check the error message. You may need to install libcurl on your system before installing the R packages.
 
 ### Running tests
 

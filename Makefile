@@ -6,7 +6,7 @@ doc:
 
 test:
 	R CMD INSTALL --install-tests .
-	R --slave -e 'library(testthat); setwd(file.path(.libPaths()[1], "querycache", "tests")); system.time(test_check("querycache", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
+	R --slave -e 'library(testthat); setwd(file.path(.libPaths()[1], "httpcache", "tests")); system.time(test_check("httpcache", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
 
 deps:
 	R --slave -e 'install.packages(c("httr", "codetools", "testthat", "devtools", "digest"), repo="http://cran.at.r-project.org", lib=ifelse(nchar(Sys.getenv("R_LIB")), Sys.getenv("R_LIB"), .libPaths()[1]))'
@@ -15,9 +15,9 @@ build: doc
 	R CMD build .
 
 check: build
-	-unset INTEGRATION && R CMD CHECK --as-cran querycache_$(VERSION).tar.gz
-    # cd querycache.Rcheck/querycache/doc/ && ls | grep .html | xargs -n 1 egrep "<pre><code>.. NULL" >> ../../../vignette-errors.log
-	rm -rf querycache.Rcheck/
+	-unset INTEGRATION && R CMD CHECK --as-cran httpcache_$(VERSION).tar.gz
+    # cd httpcache.Rcheck/httpcache/doc/ && ls | grep .html | xargs -n 1 egrep "<pre><code>.. NULL" >> ../../../vignette-errors.log
+	rm -rf httpcache.Rcheck/
     # cat vignette-errors.log
     # rm vignette-errors.log
 

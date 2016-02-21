@@ -7,7 +7,7 @@ with_mock_HTTP({
     GET("https://github.com/")
     GET("https://github.com/nealrichardson/")
     try(halt("Panic!"), silent=TRUE)
-    GET("https://github.com/nealrichardson/querycache/")
+    GET("https://github.com/nealrichardson/httpcache/")
     GET("https://github.com/nealrichardson/")
     suppressMessages(POST("https://github.com/nealrichardson/"))
     GET("https://github.com/nealrichardson/")
@@ -27,7 +27,7 @@ test_that("Log writes to file", {
                 "POST", "DROP", "GET", "SET"),
         url=c(rep("https://github.com/", 2),
             rep("https://github.com/nealrichardson/", 2),
-            rep("https://github.com/nealrichardson/querycache/", 2),
+            rep("https://github.com/nealrichardson/httpcache/", 2),
             rep("https://github.com/nealrichardson/", 5)),
         stringsAsFactors=FALSE))
     expect_equivalent(cache.summary, list(
