@@ -34,7 +34,7 @@ test_that("Log writes to file", {
             counts=structure(c(1L, 1L, 4L), .Names=c("DROP", "HIT", "SET"), class="table"),
             hit.rate=c(HIT=20)
         ))
-    expect_equivalent(req.summary$req.time, 166)
+    expect_equivalent(req.summary$req.time, 165)
 })
 
 pruneTimestamp <- function (entry) substr(entry, 21, nchar(entry))
