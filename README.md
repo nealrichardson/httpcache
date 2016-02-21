@@ -6,7 +6,7 @@ Query cache for HTTP clients, with tools for cache invalidation and request logg
 
 ## Installing
 
-`httpcache` can be installed from CRAN with
+`httpcache` is not yet on CRAN. But when it is, it can be installed from CRAN with
 
     install.packages("httpcache")
 
