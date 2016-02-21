@@ -1,2 +1,2 @@
 library(testthat)
-test_check("querycache")
+test_check("httpcache")

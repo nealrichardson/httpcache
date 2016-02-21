@@ -1,4 +1,4 @@
-Package: querycache
+Package: httpcache
 Type: Package
 Title: Query Cache for HTTP Clients
 Description: Insert description here.
@@ -8,8 +8,8 @@ Authors@R: c(person("Neal", "Richardson", role = c("aut", "cre"),
     email = "neal@crunch.io"))
 Author: Neal Richardson [aut, cre]
 Maintainer: Neal Richardson <neal@crunch.io>
-URL: https://github.com/nealrichardson/querycache
-BugReports: https://github.com/nealrichardson/querycache/issues
+URL: https://github.com/nealrichardson/httpcache
+BugReports: https://github.com/nealrichardson/httpcache/issues
 License: LGPL (>= 3)
 LazyLoad: yes
 Depends:
