@@ -12,7 +12,7 @@ test_that("Cache gets set on GET", {
     expect_identical(a$response, 35L)
 })
 
-test_that("When the cache is set, you can read from it even with no connection", {
+test_that("When the cache is set, can read from it even with no connection", {
     ## Now read from cache
     without_internet({
         expect_identical(GET("https://beta.crunch.io/api/datasets")$response,
@@ -57,7 +57,8 @@ clearCache()
 test_that("Checking cache even with cache off doesn't fail on long query", {
     uncached({
         with_mock_HTTP({
-            z <- GET("https://beta.crunch.io/api/users/", query=list(query=rep("Q", 10000)))
+            z <- GET("https://beta.crunch.io/api/users/",
+                query=list(query=rep("Q", 10000)))
         })
     })
     expect_true(is.numeric(z$response))
@@ -66,11 +67,23 @@ test_that("Checking cache even with cache off doesn't fail on long query", {
 clearCache()
 test_that("cache gets set on GET even with long query", {
     with_mock_HTTP({
-        GET("https://beta.crunch.io/api/users/", query=list(query=rep("Q", 10000)))
+        GET("https://beta.crunch.io/api/users/",
+            query=list(query=rep("Q", 10000)))
     })
-    expect_identical(length(ls(envir=cache)), 1L)
-    expect_true(any(grepl("https://beta.crunch.io/api/users/",
-        ls(envir=cache), fixed=TRUE)))
+    expect_identical(ls(envir=cache),
+        "https://beta.crunch.io/api/users/?HASHED_QUERY=38f0ed36c36e7c08ad375cc9a48d1364")
+})
+without_internet({
+    test_that("Can read cache with query params even with no connection", {
+        expect_identical(GET("https://beta.crunch.io/api/users/",
+            query=list(query=rep("Q", 10000)))$response,
+            33L)
+    })
+    test_that("Caching respects GET query parameters", {
+        ## This is a cache miss because the query param is different
+        expect_error(GET("https://beta.crunch.io/api/users/",
+            query=list(a=1)))
+    })
 })
 
 test_that("cacheOff stops caching and clears existing cache", {

@@ -61,3 +61,19 @@ test_that("startLog overwrites log file if exists (by default)", {
     expect_identical(pruneTimestamp(readLines(logfile)),
         "CACHE HIT https://github.com/ ")
 })
+
+test_that("httr integration + cache behavior + logging to stdout", {
+    startLog("") ## Log to stdout
+    logs <- capture.output({
+        a <- GET("http://httpbin.org/get")
+        b <- GET("http://httpbin.org/get")
+    })
+    expect_identical(grep("HTTP GET", logs), 1L)
+    expect_identical(grep("CACHE HIT", logs), 3L)
+    ## Check the content returned from httpbin
+    expect_true(grepl("httr", httr::content(a)$headers[["User-Agent"]]))
+    ## And that the cache returns the same
+    expect_true(grepl("httr", httr::content(b)$headers[["User-Agent"]]))
+})
+
+options(httpcache.log=NULL)
