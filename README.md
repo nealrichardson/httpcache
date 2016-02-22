@@ -1,8 +1,15 @@
-# httpcache
+# httpcache: Query Cache for HTTP Clients
 
 [![Build Status](https://travis-ci.org/nealrichardson/httpcache.png?branch=master)](https://travis-ci.org/nealrichardson/httpcache) [![codecov.io](https://codecov.io/github/nealrichardson/httpcache/coverage.svg?branch=master)](https://codecov.io/github/nealrichardson/httpcache?branch=master)
 
-Query cache for HTTP clients, with tools for cache invalidation and request logging.
+In order to improve performance for HTTP API clients, `httpcache`
+provides simple tools for caching and invalidating cache. It includes the
+HTTP verb functions `GET`, `PUT`, `PATCH`, `POST`, and `DELETE`, which are drop-in
+replacements for those in the `httr` package. These functions are cache-aware and provide default settings
+for cache invalidation suitable for RESTful APIs, and the package also
+enables custom cache management strategies. Finally, `httpcache` includes
+a basic logging framework to facilitate the measurement of HTTP request
+time and cache performance.
 
 ## Installing
 
