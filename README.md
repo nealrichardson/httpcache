@@ -6,8 +6,8 @@ In order to improve performance for HTTP API clients, `httpcache`
 provides simple tools for caching and invalidating cache. It includes the
 HTTP verb functions `GET`, `PUT`, `PATCH`, `POST`, and `DELETE`, which are drop-in
 replacements for those in the `httr` package. These functions are cache-aware and provide default settings
-for cache invalidation suitable for RESTful APIs, and the package also
-enables custom cache management strategies. Finally, `httpcache` includes
+for cache invalidation suitable for RESTful APIs; the package also
+enables custom cache-management strategies. Finally, `httpcache` includes
 a basic logging framework to facilitate the measurement of HTTP request
 time and cache performance.
 
