@@ -1,6 +1,6 @@
 # httpcache
 
-[![Build Status](https://travis-ci.org/nealrichardson/httpcache.png?branch=master)](https://travis-ci.org/nealrichardson/httpcache)
+[![Build Status](https://travis-ci.org/nealrichardson/httpcache.png?branch=master)](https://travis-ci.org/nealrichardson/httpcache) [![codecov.io](https://codecov.io/github/nealrichardson/httpcache/coverage.svg?branch=master)](https://codecov.io/github/nealrichardson/httpcache?branch=master)
 
 Query cache for HTTP clients, with tools for cache invalidation and request logging.
 
@@ -17,12 +17,16 @@ The pre-release version of the package can be pulled from GitHub using the [devt
 
 ## Getting started
 
+
+
 ## For developers
+
+The repository includes a Makefile to facilitate some common tasks.
 
 ### Running tests
 
-`$ make test` is all you need. Requires the `testthat` package for R. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=auth`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the `testthat` package.
+`$ make test`. Requires the `testthat` package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the `testthat` package.
 
 ### Updating documentation
 
-Run `$ make doc`. Requires the `roxygen2` package.
+`$ make doc`. Requires the `roxygen2` package.
