@@ -7,11 +7,25 @@ initCache()
 
 caching <- function () isTRUE(getOption("httpcache.on"))
 
+##' Manage the HTTP cache
+##'
+##' These functions turn the cache on and off and clear the contents of the
+##' query cache.
+##' @return Nothing. Functions are run for their side effects.
+##' @aliases cacheOn cacheOff clearCache
+##' @name cache-management
+##' @export
 cacheOn <- function () options(httpcache.on=TRUE)
+
+##' @rdname cache-management
+##' @export
 cacheOff <- function () {
     options(httpcache.on=FALSE)
     clearCache()
 }
+
+##' @rdname cache-management
+##' @export
 clearCache <- function () {
     logMessage("CACHE CLEAR")
     rm(list=ls(all.names=TRUE, envir=cache), envir=cache)
@@ -37,25 +51,41 @@ uncached <- function (...) {
     eval.parent(...)
 }
 
-## deal with query params differently?
+##' Invalidate cache
+##'
+##' These functions let you control cache invalidation. \code{dropOnly}
+##' invalidates cache only for the specified URL. \code{dropPattern} uses
+##' regular expression matching to invalidate cache. \code{dropCache} is a
+##' convenience wrapper around \code{dropPattern} that invalidates cache for
+##' any resources that start with the given URL.
+##' @param x character URL or regular expression
+##' @return Nothing. Functions are run for their side effects.
+##' @export
 dropCache <- function (x) {
     ## Drop x and anything below it in the tree
     dropPattern(paste0("^", regexEscape(popQuery(x))))
 }
+
+##' @rdname dropCache
+##' @export
 dropOnly <- function (x) {
     logMessage("CACHE DROP", x)
     suppressWarnings(rm(list=x, envir=cache))
 }
-# dropBelow <- function (x) {
-#     ## Don't drop x, just those below it in the tree. hence ".+"
-#     dropPattern(paste0("^", regexEscape(popQuery(x)), ".+"))
-# }
-dropPattern <- function (x, escape=TRUE) {
+
+##' @rdname dropCache
+##' @export
+dropPattern <- function (x) {
     logMessage("CACHE DROP", x)
     rm(list=ls(envir=cache, pattern=x), envir=cache)
 }
 
-## TODO: write this?
+# dropBelow <- function (x) {
+#     ## Don't drop x, just those below it in the tree. hence ".+"
+#     dropPattern(paste0("^", regexEscape(popQuery(x)), ".+"))
+# }
+
+## TODO: write this? or can we trust that URLs don't contain reserved chars?
 regexEscape <- function (x) {
     ## Escape all reserved characters with \\
     return(x)
