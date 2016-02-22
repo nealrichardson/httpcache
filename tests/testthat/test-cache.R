@@ -22,10 +22,12 @@ test_that("When the cache is set, can read from it even with no connection", {
 
 test_that("PUT busts cache", {
     ## Now bust cache
-    with_mock_HTTP({
-        expect_message(PUT("https://beta.crunch.io/api/datasets"),
-            "PUT https://beta.crunch.io/api/datasets ")
-    })
+    public(
+        with_mock_HTTP({
+            expect_message(PUT("https://beta.crunch.io/api/datasets"),
+                "PUT https://beta.crunch.io/api/datasets ")
+        })
+    )
     ## See that it's no longer in the cache
     expect_identical(length(ls(envir=cache)), 1L)
     without_internet({
@@ -41,10 +43,12 @@ test_that("PATCH busts cache", {
             query=list(user="me"))$response, 27L)
     })
     ## Now bust cache
-    with_mock_HTTP({
-        expect_message(PATCH("https://beta.crunch.io/api/"),
-            "PATCH https://beta.crunch.io/api/ ")
-    })
+    public(
+        with_mock_HTTP({
+            expect_message(PATCH("https://beta.crunch.io/api/"),
+                "PATCH https://beta.crunch.io/api/ ")
+        })
+    )
     ## See that it's no longer in the cache
     expect_identical(length(ls(envir=cache)), 0L)
     without_internet({
@@ -55,12 +59,14 @@ test_that("PATCH busts cache", {
 
 clearCache()
 test_that("Checking cache even with cache off doesn't fail on long query", {
-    uncached({
-        with_mock_HTTP({
-            z <- GET("https://beta.crunch.io/api/users/",
-                query=list(query=rep("Q", 10000)))
+    public(
+        uncached({
+            with_mock_HTTP({
+                z <- GET("https://beta.crunch.io/api/users/",
+                    query=list(query=rep("Q", 10000)))
+            })
         })
-    })
+    )
     expect_true(is.numeric(z$response))
 })
 
@@ -97,3 +103,5 @@ test_that("cacheOff stops caching and clears existing cache", {
     expect_identical(length(ls(envir=cache)), 0L)
     expect_identical(a$response, 35L)
 })
+
+## TODO: test dropCache functions
