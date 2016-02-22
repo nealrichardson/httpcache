@@ -5,6 +5,10 @@ options(warn=1)
 cacheOn()
 
 source("mocks.R")
-with(globalenv(), source("mocks.R"))
 
 public <- function (...) with(globalenv(), ...)
+
+public({
+    source("mocks.R")
+    cacheKeys <- function () ls(envir=httpcache:::cache)
+})
