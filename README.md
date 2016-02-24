@@ -5,7 +5,8 @@
 In order to improve performance for HTTP API clients, `httpcache`
 provides simple tools for caching and invalidating cache. It includes the
 HTTP verb functions `GET`, `PUT`, `PATCH`, `POST`, and `DELETE`, which are drop-in
-replacements for those in the `httr` package. These functions are cache-aware and provide default settings
+replacements for those in the [httr](https://github.com/hadley/httr) package.
+These functions are cache-aware and provide default settings
 for cache invalidation suitable for RESTful APIs; the package also
 enables custom cache-management strategies. Finally, `httpcache` includes
 a basic logging framework to facilitate the measurement of HTTP request
@@ -13,7 +14,7 @@ time and cache performance.
 
 ## Installing
 
-`httpcache` is not yet on CRAN. But when it is, it can be installed from CRAN with
+`httpcache` can be installed from CRAN with
 
     install.packages("httpcache")
 
@@ -32,8 +33,8 @@ The repository includes a Makefile to facilitate some common tasks.
 
 ### Running tests
 
-`$ make test`. Requires the `testthat` package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the `testthat` package.
+`$ make test`. Requires the [testthat](https://github.com/hadley/testthat) package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the `testthat` package.
 
 ### Updating documentation
 
-`$ make doc`. Requires the `roxygen2` package.
+`$ make doc`. Requires the [roxygen2](https://github.com/klutometis/roxygen) package.
