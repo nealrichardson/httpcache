@@ -1,5 +1,11 @@
 context("Cache invalidation functions")
 
+test_that("popQuery", {
+    expect_identical(popQuery("https://github.com/nealrichardson/?is=awesome"),
+        "https://github.com/nealrichardson/")
+})
+
+
 public({
     clearCache()
     ## Load some stuff into the cache

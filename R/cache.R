@@ -93,5 +93,5 @@ regexEscape <- function (x) {
 
 popQuery <- function (x) {
     ## Remove query parameters from a URL
-    return(sub(".*(\\?.*)$", "", x))
+    return(sub("\\?.*$", "", x))
 }
