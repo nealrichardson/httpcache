@@ -1,6 +1,7 @@
 ### httpcache 0.1.3
 
 * Fix regular expression matching in popQuery
+* Ensure that caching is on by default
 
 ### httpcache 0.1.2
 

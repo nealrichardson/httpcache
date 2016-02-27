@@ -1,5 +1,17 @@
 context("Caching")
 
+test_that("Cache is on by default", {
+    expect_true(is.null(getOption("httpcache.on")))
+    expect_true(caching())
+})
+test_that("httpcache.on option affects caching", {
+    on.exit(options(httpcache.on=NULL))
+    options(httpcache.on=FALSE)
+    expect_false(caching())
+    options(httpcache.on=TRUE)
+    expect_true(caching())
+})
+
 public({
     clearCache()
 
