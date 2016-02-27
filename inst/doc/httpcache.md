@@ -23,8 +23,8 @@ system.time(a <- GET("http://httpbin.org/get"))
 ```
 
 ```
-##    user  system elapsed
-##   0.012   0.002   1.694
+##    user  system elapsed 
+##   0.013   0.003   0.599
 ```
 
 ```r
@@ -32,7 +32,7 @@ system.time(b <- GET("http://httpbin.org/get"))
 ```
 
 ```
-##    user  system elapsed
+##    user  system elapsed 
 ##       0       0       0
 ```
 
@@ -65,8 +65,8 @@ a <- GET("http://httpbin.org/get")
 ```
 
 ```
-## 2016-02-26T23:29:16 HTTP GET http://httpbin.org/get 200 0.021466
-## 2016-02-26T23:29:16 CACHE SET http://httpbin.org/get
+## 2016-02-26T23:43:16 HTTP GET http://httpbin.org/get 200 0.02644 
+## 2016-02-26T23:43:16 CACHE SET http://httpbin.org/get
 ```
 
 ```r
@@ -74,16 +74,14 @@ b <- GET("http://httpbin.org/get")
 ```
 
 ```
-## 2016-02-26T23:29:16 CACHE HIT http://httpbin.org/get
+## 2016-02-26T23:43:16 CACHE HIT http://httpbin.org/get
 ```
 
 Notice how the first request results in an "HTTP GET" and a "CACHE SET", while the second one gets a "CACHE HIT" and does not touch "HTTP". From this log output, we can conclude that the query cache is working.
 
 ### Log analysis
 
-You can also pass a file name to `startLog`. This makes it easier to read the log output back in as a `data.frame` and analyze it quantitatively.
-
- <!-- give example of that -->
+You can also pass a file name to `startLog`. This makes it easier to read the log output back in as a `data.frame` and analyze it quantitatively. We'll do an example of that below.
 
 ### Custom logging
 
@@ -91,9 +89,7 @@ You may want to send other events to the log, interspersed with your HTTP reques
 
 ## Cache invalidation
 
-<!-- link to the joke -->
-
-As the old computer science joke goes, cache invalidation is one of the two hard problems. The trouble with caching what the server serves is that the server is the source of truth, and if the state of data on the server changes, our local copy of the data is stale. In some applications and with some APIs, we have no idea when the server state changes, but in many cases, the source of change on the server is actions that we initiate ourselves. In these cases, a local query cache is more feasible, and cache invalidation more tractable.
+As the [saying (or joke, depending on the version)](http://martinfowler.com/bliki/TwoHardThings.md), cache invalidation is one of the two hard problems in computer science. The trouble with caching what the server serves is that the server is the source of truth, and if the state of data on the server changes, our local copy of the data is stale. In some applications and with some APIs, we have no idea when the server state changes, but in many cases, the source of change on the server is actions that we initiate ourselves. In these cases, a local query cache is more feasible, and cache invalidation more tractable.
 
 `httpcache` provides some functions to direct cache invalidation. We've seen one already, `clearCache`, which wipes the entire cache. Other functions give more surgical control. `dropOnly`
 invalidates cache only for the specified URL. `dropPattern` uses
@@ -101,8 +97,7 @@ regular expression matching to invalidate cache. `dropCache` is a
 convenience wrapper around `dropPattern` that invalidates cache for
 any resources that start with the given URL.
 
-<!-- link to REST wiki -->
-Depending on the API with which you're communicating, you may not need to use those cache-invalidation functions directly, or you may need them only infrequently. `httpcache` was designed with RESTful APIs in mind, particularly those that expose resources that contain collections of entities that can be created, replaced, updated, and deleted with POST, PUT, PATCH, and DELETE, respectively. Consequently, these four HTTP verb functions are built with default cache invalidation actions: `POST` invalidates cache only for the request URL (`dropOnly`), for the case where POST creates a new entity appearing as a subresource. For example, if `GET http://api.example/projects/` returns a catalog of project entities, and POST to `http://api.example/projects/` creates a resource at `http://api.example/projects/new_id/`, we need to bust cache for the project catalog on POST, but our cached responses for resources such as  `http://api.example/projects/old_id/` should still be valid. The other three functions, `PUT`, `PATCH`, and `DELETE`, by default drop cache for the request URL and everything "below" it (`dropCache`). Continuing with the example, if we modify `http://api.example/projects/new_id/`, we should invalidate cache for that resource and for other resources appearing as subresources of it, such as `http://api.example/projects/new_id/users/`.
+Depending on the API with which you're communicating, you may not need to use those cache-invalidation functions directly, or you may need them only infrequently. `httpcache` was designed with [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) APIs in mind, particularly those that expose resources that contain collections of entities that can be created, replaced, updated, and deleted with POST, PUT, PATCH, and DELETE, respectively. Consequently, these four HTTP verb functions are built with default cache invalidation actions: `POST` invalidates cache only for the request URL (`dropOnly`), for the case where POST creates a new entity appearing as a subresource. For example, if `GET http://api.example/projects/` returns a catalog of project entities, and POST to `http://api.example/projects/` creates a resource at `http://api.example/projects/new_id/`, we need to bust cache for the project catalog on POST, but our cached responses for resources such as  `http://api.example/projects/old_id/` should still be valid. The other three functions, `PUT`, `PATCH`, and `DELETE`, by default drop cache for the request URL and everything "below" it (`dropCache`). Continuing with the example, if we modify `http://api.example/projects/new_id/`, we should invalidate cache for that resource and for other resources appearing as subresources of it, such as `http://api.example/projects/new_id/users/`.
 
 These verb functions (`POST`, `PUT`, `PATCH`, and `DELETE`) all take a `drop` argument, which defaults as described above. To override them, you can specify a different call other than `dropCache(url)` or `dropOnly(url)`, or you can pass `drop=NULL` and call the cache-invalidation functions directly. Depending on your API and your usage of it, however, `httpcache`'s cache management may just work for you with no additional effort.
 
