@@ -4,7 +4,7 @@
 \alias{startLog}
 \title{Enable logging}
 \usage{
-startLog(filename, append = FALSE)
+startLog(filename = "", append = FALSE)
 }
 \arguments{
 \item{filename}{character: a filename/path where the log can be written out.
