@@ -5,8 +5,11 @@ initCache <- function () {
 }
 initCache()
 
-caching <- function () isTRUE(getOption("httpcache.on"))
-
+caching <- function () {
+    ## Default should be on, so if httpcache.on isn't set, return TRUE
+    opt <- getOption("httpcache.on")
+    return(is.null(opt) || isTRUE(opt))
+}
 ##' Manage the HTTP cache
 ##'
 ##' These functions turn the cache on and off and clear the contents of the

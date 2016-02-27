@@ -18,7 +18,6 @@ Maintainer: Neal Richardson <neal.p.richardson@gmail.com>
 URL: https://github.com/nealrichardson/httpcache
 BugReports: https://github.com/nealrichardson/httpcache/issues
 License: MIT + file LICENSE
-LazyLoad: yes
 Depends:
     R (>= 3.0.0)
 Imports:
