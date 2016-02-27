@@ -25,7 +25,7 @@ The pre-release version of the package can be pulled from GitHub using the [devt
 
 ## Getting started
 
-
+Working with `httpcache` is as simple as loading the package in your interactive session or script instead of `httr`, or, in package development, importing the HTTP verb functions from `httpcache`. `GET` responses are added to the local query cache until `PUT`, `PATCH`, `POST`, or `DELETE` requests trigger cache invalidation, or until you command the invalidation explicitly. See the [vignette](inst/doc/httpcache.md) for examples of the HTTP cache in practice.
 
 ## For developers
 

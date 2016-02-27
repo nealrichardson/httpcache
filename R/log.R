@@ -35,7 +35,7 @@ halt <- function (..., call.=FALSE) {
 ##' it will be deleted.
 ##' @return Nothing.
 ##' @export
-startLog <- function (filename, append=FALSE) {
+startLog <- function (filename="", append=FALSE) {
     options(httpcache.log=filename)
     if (!append && nchar(filename) && file.exists(filename)) {
         file.remove(filename)
