@@ -98,3 +98,5 @@ popQuery <- function (x) {
     ## Remove query parameters from a URL
     return(sub("\\?.*$", "", x))
 }
+
+.internalFunction <- function () TRUE

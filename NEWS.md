@@ -2,6 +2,7 @@
 
 * Fix regular expression matching in popQuery
 * Ensure that caching is on by default
+* Add vignette
 
 ### httpcache 0.1.2
 
