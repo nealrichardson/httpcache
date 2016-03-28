@@ -9,8 +9,8 @@ Description: In order to improve performance for HTTP API clients, 'httpcache'
     APIs; the package also enables custom cache-management strategies.
     Finally, 'httpcache' includes a basic logging framework to facilitate the
     measurement of HTTP request time and cache performance.
-Version: 0.1.3
-Date: 2016-02-25
+Version: 0.1.4
+Date: 2016-03-28
 Authors@R: c(person("Neal", "Richardson", role = c("aut", "cre"),
     email = "neal.p.richardson@gmail.com"))
 Author: Neal Richardson [aut, cre]
