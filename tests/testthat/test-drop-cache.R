@@ -5,6 +5,19 @@ test_that("popQuery", {
         "https://github.com/nealrichardson/")
 })
 
+urls <- c("https://exampleXcom:8080/",
+          "https://example.com:8080/",
+          "https://exampleeeeeecom:8080/",
+          "https://example+com:8080/",
+          "https://example.com:8080/?foo=bar",
+          "https://example.com:8080foo=bar")
+test_that("regexEscape", {
+    expect_identical(grep(regexEscape("example.com"), urls), c(2L, 5L, 6L))
+    expect_identical(grep(regexEscape("example+com"), urls), 4L)
+    expect_identical(grep(regexEscape("example.com:8080/?foo=bar"), urls), 5L)
+})
+
+
 
 public({
     clearCache()

@@ -14,10 +14,8 @@ Whatever ... returns.
 }
 \description{
 If you don't want to store the response of a GET request in the cache,
-wrap it in \code{uncached()}. Note that if the response is already found
-in the cache, as from a previous request that was not uncached, you will
-get the cached response. That is, this function prevents writing to cache,
-but it does not prevent reading from cache.
+wrap it in \code{uncached()}. It will neither read from nor write to cache.
+However, \code{uncached} will not invalidate cache records, if present.
 }
 \examples{
 uncached(GET("http://httpbin.org/get"))

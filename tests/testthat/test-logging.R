@@ -32,7 +32,8 @@ public({
                 rep("https://github.com/nealrichardson/", 5)),
             stringsAsFactors=FALSE))
         expect_equivalent(cache.summary, list(
-                counts=structure(c(1L, 1L, 4L), .Names=c("DROP", "HIT", "SET"), class="table"),
+                counts=structure(c(1L, 1L, 4L),
+                    .Names=c("DROP", "HIT", "SET"), class="table"),
                 hit.rate=c(HIT=20)
             ))
         expect_equivalent(req.summary$req.time, 165)
@@ -51,7 +52,7 @@ public({
         expect_identical(pruneTimestamp(loglines2[13]),
             "HTTP DELETE https://github.com/nealrichardson/not_a_real_repo/ 204 50 ")
         expect_identical(pruneTimestamp(loglines2[14]),
-            "CACHE DROP ^https://github.com/nealrichardson/not_a_real_repo/ ")
+            "CACHE DROP ^https://github[.]com/nealrichardson/not_a_real_repo/ ")
     })
 
     test_that("startLog overwrites log file if exists (by default)", {

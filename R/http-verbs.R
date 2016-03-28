@@ -28,16 +28,17 @@
 ##' @seealso \code{\link{dropCache}}
 ##' @export
 GET <- function (url, ...) {
-    Call <- match.call(expand.dots = TRUE)
-    cache.url <- url
-    if (!is.null(Call[["query"]])) {
-        cache.url <- paste0(url, "?HASHED_QUERY=",
-            digest(eval.parent(Call$query)))
-    }
-    if (exists(cache.url, envir=cache)) {
-        # Always check cache, even if cache is off
-        logMessage("CACHE HIT", cache.url)
-        return(get(cache.url, envir=cache))
+    if (caching()) {
+        Call <- match.call(expand.dots = TRUE)
+        cache.url <- url
+        if (!is.null(Call[["query"]])) {
+            cache.url <- paste0(url, "?HASHED_QUERY=",
+                digest(eval.parent(Call$query)))
+        }
+        if (exists(cache.url, envir=cache)) {
+            logMessage("CACHE HIT", cache.url)
+            return(get(cache.url, envir=cache))
+        }
     }
     x <- httr::GET(url, ...)
     logMessage(responseStatusLog(x))
