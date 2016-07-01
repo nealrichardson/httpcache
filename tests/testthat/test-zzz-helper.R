@@ -1,5 +1,14 @@
 context("Various helper functions")
 
+test_that("currently_offline", {
+    with_mock_HTTP({
+        expect_false(currently_offline("http://example.com/"))
+    })
+    without_internet({
+        expect_true(currently_offline("http://example.com/"))
+    })
+})
+
 test_that("Functions not exported can be found", {
     expect_true(.internalFunction())
 })

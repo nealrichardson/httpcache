@@ -65,6 +65,7 @@ public({
     })
 
     test_that("httr integration + cache behavior + logging to stdout", {
+        skip_if_disconnected()
         startLog("") ## Log to stdout
         logs <- capture.output({
             a <- GET("http://httpbin.org/get")
