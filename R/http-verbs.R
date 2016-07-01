@@ -28,7 +28,12 @@
 ##' @seealso \code{\link{dropCache}}
 ##' @export
 GET <- function (url, ...) {
-    if (caching()) {
+    if (!is.character(url)) {
+        ## Basic input validation
+        stop("Invalid URL: ", deparse(url)[1])
+    }
+    cache.is.on <- caching()
+    if (cache.is.on) {
         Call <- match.call(expand.dots = TRUE)
         cache.url <- url
         if (!is.null(Call[["query"]])) {
@@ -42,7 +47,7 @@ GET <- function (url, ...) {
     }
     x <- httr::GET(url, ...)
     logMessage(responseStatusLog(x))
-    if (caching() && x$status_code == 200) {
+    if (cache.is.on && x$status_code == 200) {
         logMessage("CACHE SET", cache.url)
         assign(cache.url, x, envir=cache)
     }

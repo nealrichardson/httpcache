@@ -1,3 +1,6 @@
+### httpcache 0.1.6
+* Improve error message for when a non-character input is given to `GET`
+
 ### httpcache 0.1.4
 
 * Ensure that caching is on by default
