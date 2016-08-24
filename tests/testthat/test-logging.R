@@ -31,6 +31,7 @@ public({
                 rep("https://github.com/nealrichardson/httpcache/", 2),
                 rep("https://github.com/nealrichardson/", 5)),
             stringsAsFactors=FALSE))
+        expect_false(any(is.na(logdf$timestamp)))
         expect_equivalent(cache.summary, list(
                 counts=structure(c(1L, 1L, 4L),
                     .Names=c("DROP", "HIT", "SET"), class="table"),
@@ -39,7 +40,7 @@ public({
         expect_equivalent(req.summary$req.time, 165)
     })
 
-    pruneTimestamp <- function (entry) substr(entry, 21, nchar(entry))
+    pruneTimestamp <- function (entry) substr(entry, 25, nchar(entry))
 
     test_that("startLog appending", {
         startLog(logfile, append=TRUE)

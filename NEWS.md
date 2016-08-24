@@ -1,3 +1,6 @@
+### httpcache 0.1.8
+* Include milliseconds in timestamps
+
 ### httpcache 0.1.6
 * Improve error message for when a non-character input is given to `GET`
 
