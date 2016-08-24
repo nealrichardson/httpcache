@@ -6,7 +6,7 @@
 logMessage <- function (...) {
     logfile <- getOption("httpcache.log")
     if (!is.null(logfile)) {
-        cat(strftime(Sys.time(), "%Y-%m-%dT%H:%M:%S"), ..., "\n", file=logfile, append=TRUE)
+        cat(strftime(Sys.time(), "%Y-%m-%dT%H:%M:%OS3"), ..., "\n", file=logfile, append=TRUE)
     }
 }
 
@@ -58,7 +58,7 @@ loadLogfile <- function (filename, scope=c("CACHE", "HTTP")) {
         stringsAsFactors=FALSE)[,1:6]
     names(df) <- c("timestamp", "scope", "verb", "url", "status", "time")
     df <- df[df$scope %in% scope,] ## Prune out-of-scope things
-    df$timestamp <- strptime(df$timestamp, "%Y-%m-%dT%H:%M:%S")
+    df$timestamp <- strptime(df$timestamp, "%Y-%m-%dT%H:%M:%OS")
     df[c("status", "time")] <- lapply(df[c("status", "time")], as.numeric)
     return(df)
 }
