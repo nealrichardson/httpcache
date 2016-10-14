@@ -31,8 +31,10 @@ cacheOff <- function () {
 #' @export
 clearCache <- function () {
     logMessage("CACHE CLEAR")
-    rm(list=ls(all.names=TRUE, envir=cache), envir=cache)
+    rm(list=cacheKeys(), envir=cache)
 }
+
+cacheKeys <- function () ls(all.names=TRUE, envir=cache)
 
 #' Context manager to temporarily turn cache off if it is on
 #'

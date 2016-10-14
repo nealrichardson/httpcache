@@ -20,7 +20,7 @@ public({
     req.summary <- requestLogSummary(logdf)
 
     test_that("Log writes to file", {
-        expect_identical(length(loglines), 12L)
+        expect_length(loglines, 12)
         expect_equivalent(logdf[,2:4], data.frame(
             scope=c("HTTP", "CACHE", "HTTP", "CACHE", "HTTP", "CACHE", "CACHE",
                     "HTTP", "CACHE", "HTTP", "CACHE"),
@@ -48,7 +48,7 @@ public({
             DELETE("https://github.com/nealrichardson/not_a_real_repo/")
         })
         loglines2 <- readLines(logfile)
-        expect_identical(length(loglines2), 14L)
+        expect_length(loglines2, 14)
         expect_identical(loglines2[1:12], loglines)
         expect_identical(pruneTimestamp(loglines2[13]),
             "HTTP DELETE https://github.com/nealrichardson/not_a_real_repo/ 204 50 ")

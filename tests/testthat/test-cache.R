@@ -16,12 +16,12 @@ public({
     clearCache()
 
     test_that("Cache gets set on GET", {
-        expect_identical(length(cacheKeys()), 0L)
+        expect_length(cacheKeys(), 0)
         with_mock_HTTP({
             a <- GET("https://beta.crunch.io/api/datasets")
             b <- GET("https://beta.crunch.io/api/", query=list(user="me"))
         })
-        expect_identical(length(cacheKeys()), 2L)
+        expect_length(cacheKeys(), 2)
         expect_true("https://beta.crunch.io/api/datasets" %in% cacheKeys())
         expect_identical(a$response, 35L)
     })
@@ -45,7 +45,7 @@ public({
                 "PUT https://beta.crunch.io/api/datasets ")
         })
         ## See that it's no longer in the cache
-        expect_identical(length(cacheKeys()), 1L)
+        expect_length(cacheKeys(), 1)
         without_internet({
             expect_error(GET("https://beta.crunch.io/api/datasets"),
                 "GET https://beta.crunch.io/api/datasets")
@@ -64,7 +64,7 @@ public({
                 "PATCH https://beta.crunch.io/api/ ")
         })
         ## See that it's no longer in the cache
-        expect_identical(length(cacheKeys()), 0L)
+        expect_length(cacheKeys(), 0)
         without_internet({
             expect_error(GET("https://beta.crunch.io/api/", query=list(user="me")),
                 "GET https://beta.crunch.io/api/")
@@ -75,14 +75,14 @@ public({
         with_mock_HTTP({
             GET("https://beta.crunch.io/api/datasets")
         })
-        expect_identical(length(cacheKeys()), 1L)
+        expect_length(cacheKeys(), 1)
         cacheOff()
         on.exit(cacheOn()) ## Turn it back on
-        expect_identical(length(cacheKeys()), 0L)
+        expect_length(cacheKeys(), 0)
         with_mock_HTTP({
             a <- GET("https://beta.crunch.io/api/datasets")
         })
-        expect_identical(length(cacheKeys()), 0L)
+        expect_length(cacheKeys(), 0)
         expect_identical(a$response, 35L)
     })
 
