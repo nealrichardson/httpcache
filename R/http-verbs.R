@@ -28,10 +28,8 @@
 #' @seealso \code{\link{dropCache}}
 #' @export
 GET <- function (url, ...) {
-    if (!is.character(url)) {
-        ## Basic input validation
-        stop("Invalid URL: ", deparse(url)[1])
-    }
+    validateURL(url)
+
     cache.is.on <- caching()
     if (cache.is.on) {
         Call <- match.call(expand.dots = TRUE)
@@ -101,4 +99,12 @@ responseStatusLog <- function (response) {
         req$url,
         response$status_code,
         response$times["total"]))
+}
+
+validateURL <- function (url) {
+    ## Make sure it's a string. Give a useful error if not.
+    if (!is.character(url)) {
+        ## Basic input validation
+        stop("Invalid URL: ", deparse(url)[1])
+    }
 }

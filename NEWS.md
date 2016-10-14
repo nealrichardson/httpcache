@@ -1,3 +1,9 @@
+# httpcache 0.99.0
+
+New functions:
+
+* `cachedDownload` to cache result of `download.file`. Includes new dependency on the [downloader](https://github.com/wch/downloader) for better cross-platform support.
+
 ### httpcache 0.1.8
 * Include milliseconds in timestamps
 

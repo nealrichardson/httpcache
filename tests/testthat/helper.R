@@ -6,5 +6,5 @@ public <- function (...) with(globalenv(), ...)
 
 public({
     source("helper-mocks.R")
-    cacheKeys <- function () ls(envir=httpcache:::cache)
+    cacheKeys <- httpcache:::cacheKeys
 })

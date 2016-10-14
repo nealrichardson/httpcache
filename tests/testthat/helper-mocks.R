@@ -5,6 +5,7 @@ with_mock_HTTP <- function (expr) {
         `httr::PATCH`=fakePATCH,
         `httr::POST`=fakePOST,
         `httr::DELETE`=fakeDELETE,
+        `downloader::download`=fakeDownload,
         eval.parent(expr)
     )
 }
@@ -55,6 +56,11 @@ fakeDELETE <- function (url, body=NULL, ...) {
     ))
 }
 
+fakeDownload <- function (url, destfile, ...) {
+    file.copy(url, destfile)
+    return(0)
+}
+
 without_internet <- function (expr) {
     with_mock(
         `httr::GET`=function (url, ...) halt("GET ", url),
@@ -62,6 +68,7 @@ without_internet <- function (expr) {
         `httr::PATCH`=function (url, body, ...) halt("PATCH ", url, " ", body),
         `httr::POST`=function (url, body, ...) halt("POST ", url, " ", body),
         `httr::DELETE`=function (url, ...) halt("DELETE ", url),
+        `downloader::download`=function (url, ...) halt("DOWNLOAD ", url),
         eval.parent(expr)
     )
 }
