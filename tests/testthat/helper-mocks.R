@@ -43,7 +43,8 @@ fakePOST <- function (url, body=NULL, ...) {
     return(list(
         status_code=201,
         times=structure(nchar(url), .Names="total"),
-        request=list(method="POST", url=url)
+        request=list(method="POST", url=url),
+        response=body
     ))
 }
 
@@ -64,9 +65,9 @@ fakeDownload <- function (url, destfile, ...) {
 without_internet <- function (expr) {
     with_mock(
         `httr::GET`=function (url, ...) halt("GET ", url),
-        `httr::PUT`=function (url, body, ...) halt("PUT ", url, " ", body),
-        `httr::PATCH`=function (url, body, ...) halt("PATCH ", url, " ", body),
-        `httr::POST`=function (url, body, ...) halt("POST ", url, " ", body),
+        `httr::PUT`=function (url, body=NULL, ...) halt("PUT ", url, " ", body),
+        `httr::PATCH`=function (url, body=NULL, ...) halt("PATCH ", url, " ", body),
+        `httr::POST`=function (url, body=NULL, ...) halt("POST ", url, " ", body),
         `httr::DELETE`=function (url, ...) halt("DELETE ", url),
         `downloader::download`=function (url, ...) halt("DOWNLOAD ", url),
         eval.parent(expr)

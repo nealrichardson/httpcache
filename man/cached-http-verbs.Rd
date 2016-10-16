@@ -49,6 +49,6 @@ invalidation. They have default cache-invalidation strategies, but you can
 override them as desired.
 }
 \seealso{
-\code{\link{dropCache}}
+\code{\link{dropCache}} \code{\link{cachedPOST}} \code{\link{cachedDownload}}
 }
 

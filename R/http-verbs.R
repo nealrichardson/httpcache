@@ -25,7 +25,7 @@
 #' @importFrom digest digest
 #' @aliases GET PUT POST PATCH DELETE
 #' @name cached-http-verbs
-#' @seealso \code{\link{dropCache}}
+#' @seealso \code{\link{dropCache}} \code{\link{cachedPOST}} \code{\link{cachedDownload}}
 #' @export
 GET <- function (url, ...) {
     validateURL(url)
@@ -69,6 +69,44 @@ POST <- function (url, ..., drop=dropOnly(url)) {
     x <- httr::POST(url, ...)
     logMessage(responseStatusLog(x))
     force(drop)
+    return(x)
+}
+
+#' Cache the response of a POST
+#'
+#' Some APIs have resources where a POST is used to send a command that returns
+#' content and doesn't modify state. In this case, it's more like a GET. This
+#' may occur where one might normally GET but the request URI would be too long
+#' for the server to accept. \code{cachedPOST} thus behaves more like
+#' \code{GET}, checking for a cached response before performing the request and
+#' setting cache if the request is successful. It does no cache dropping, unlike
+#' \code{\link[httpcache]{POST}}.
+#' @param url character URL of the request
+#' @param ... additional arguments passed to the httr functions
+#' @return The corresponding httr response object, potentially read from cache
+#' @export
+cachedPOST <- function (url, ...) {
+    validateURL(url)
+
+    cache.is.on <- caching()
+    if (cache.is.on) {
+        Call <- match.call(expand.dots = TRUE)
+        cache.url <- paste0(url, "?POST=")
+        if (!is.null(Call[["body"]])) {
+            cache.url <- paste0(url, digest(eval.parent(Call$body)))
+        }
+        if (exists(cache.url, envir=cache)) {
+            logMessage("CACHE HIT", cache.url)
+            return(get(cache.url, envir=cache))
+        }
+    }
+    x <- httr::POST(url, ...)
+    logMessage(responseStatusLog(x))
+    if (cache.is.on && x$status_code < 400) {
+        ## Cache any non-error response
+        logMessage("CACHE SET", cache.url)
+        assign(cache.url, x, envir=cache)
+    }
     return(x)
 }
 

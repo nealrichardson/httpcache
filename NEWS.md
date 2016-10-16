@@ -2,6 +2,7 @@
 
 New functions:
 
+* `cachedPOST` to cache results of a POST request for resources where a POST gets content and does not alter server state.
 * `cachedDownload` to cache result of `download.file`. Includes new dependency on the [downloader](https://github.com/wch/downloader) for better cross-platform support.
 
 ### httpcache 0.1.8
