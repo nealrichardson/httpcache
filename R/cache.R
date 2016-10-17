@@ -1,10 +1,3 @@
-## Create the cache env
-cache <- NULL
-initCache <- function () {
-    cache <<- new.env(hash=TRUE)
-}
-initCache()
-
 caching <- function () {
     ## Default should be on, so if httpcache.on isn't set, return TRUE
     opt <- getOption("httpcache.on")

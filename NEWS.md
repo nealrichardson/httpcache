@@ -12,6 +12,11 @@ Functions to access the cache API:
 * `setCache` to set a cache value
 * `buildCacheKey` to construct a cache key that incorporates the request's query parameters and body.
 
+Tools to save and restore cached queries across R sessions:
+
+* `saveCache`
+* `loadCache`
+
 ### httpcache 0.1.8
 * Include milliseconds in timestamps
 
