@@ -1,9 +1,16 @@
 # httpcache 0.99.0
 
-New functions:
+New cached request functions:
 
 * `cachedPOST` to cache results of a POST request for resources where a POST gets content and does not alter server state.
-* `cachedDownload` to cache result of `download.file`. Includes new dependency on the [downloader](https://github.com/wch/downloader) for better cross-platform support.
+* `cachedDownload` to cache result of `download.file`. Includes new dependency on the [downloader](https://github.com/wch/downloader) package for better cross-platform support.
+
+Functions to access the cache API:
+
+* `hitCache` to check for the existence of a cache entry
+* `getCache` to read it
+* `setCache` to set a cache value
+* `buildCacheKey` to construct a cache key that incorporates the request's query parameters and body.
 
 ### httpcache 0.1.8
 * Include milliseconds in timestamps
