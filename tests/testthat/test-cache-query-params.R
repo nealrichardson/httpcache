@@ -19,7 +19,7 @@ public({
                 query=list(query=rep("Q", 10000)))
         })
         expect_identical(cacheKeys(),
-            "https://beta.crunch.io/api/users/?HASHED_QUERY=38f0ed36c36e7c08ad375cc9a48d1364")
+            "https://beta.crunch.io/api/users/?QUERY=38f0ed36c36e7c08ad375cc9a48d1364")
     })
     without_internet({
         test_that("Can read cache with query params even with no connection", {

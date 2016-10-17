@@ -33,11 +33,7 @@ GET <- function (url, ...) {
     cache.is.on <- caching()
     if (cache.is.on) {
         Call <- match.call(expand.dots = TRUE)
-        cache.url <- url
-        if (!is.null(Call[["query"]])) {
-            cache.url <- paste0(url, "?HASHED_QUERY=",
-                digest(eval.parent(Call$query)))
-        }
+        cache.url <- buildCacheKey(url, query=eval.parent(Call$query))
         if (exists(cache.url, envir=cache)) {
             logMessage("CACHE HIT", cache.url)
             return(get(cache.url, envir=cache))
@@ -91,10 +87,7 @@ cachedPOST <- function (url, ...) {
     cache.is.on <- caching()
     if (cache.is.on) {
         Call <- match.call(expand.dots = TRUE)
-        cache.url <- paste0(url, "?POST=")
-        if (!is.null(Call[["body"]])) {
-            cache.url <- paste0(url, digest(eval.parent(Call$body)))
-        }
+        cache.url <- buildCacheKey(url, body=eval.parent(Call$body), extras="POST")
         if (exists(cache.url, envir=cache)) {
             logMessage("CACHE HIT", cache.url)
             return(get(cache.url, envir=cache))

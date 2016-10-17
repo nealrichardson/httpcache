@@ -36,6 +36,32 @@ clearCache <- function () {
 
 cacheKeys <- function () ls(all.names=TRUE, envir=cache)
 
+#' Construct a unique cache key for a request
+#'
+#' This function encapsulates the logic of making a cache key, allowing other
+#' code or libraries to access the HTTP cache programatically.
+#'
+#' @param url character request URL
+#' @param query Optional query parameters for the request
+#' @param body Optional request body
+#' @param extras character Optional additional annotations to include in the
+#' cache key.
+#' @return Character value, starting with \code{url} and including hashed query
+#' and body values if provided, to be used as the cache key for this request.
+#' @export
+buildCacheKey <- function (url, query=NULL, body=NULL, extras=c()) {
+    if (!is.null(query)) {
+        extras <- c(extras, paste0("QUERY=", digest(query)))
+    }
+    if (!is.null(body)) {
+        extras <- c(extras, paste0("BODY=", digest(body)))
+    }
+    if (length(extras)) {
+        url <- paste(url, paste0(extras, collapse="&"), sep="?")
+    }
+    return(url)
+}
+
 #' Context manager to temporarily turn cache off if it is on
 #'
 #' If you don't want to store the response of a GET request in the cache,
