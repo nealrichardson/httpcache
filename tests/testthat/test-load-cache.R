@@ -36,4 +36,12 @@ public({
                 35L)
         })
     })
+
+    test_that("loadCache error handling", {
+        f2 <- tempfile()
+        a <- 1
+        saveRDS(a, file=f2)
+        expect_error(loadCache(f2),
+            "'loadCache' requires an .rds file containing an environment")
+    })
 })
