@@ -23,7 +23,8 @@ cachedDownload <- function (url, destfile, ...) {
     cache.is.on <- caching()
     if (cache.is.on) {
         Call <- match.call(expand.dots = TRUE)
-        cache.url <- paste0(url, "?DOWNLOAD")
+        cache.url <- buildCacheKey(url, query=eval.parent(Call$query),
+            extras="DOWNLOAD")
         if (exists(cache.url, envir=cache)) {
             logMessage("CACHE HIT", cache.url)
             ## Find where we've already downloaded the file
