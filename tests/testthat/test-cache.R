@@ -24,6 +24,7 @@ public({
         expect_length(cacheKeys(), 2)
         expect_true(hitCache("https://beta.crunch.io/api/datasets"))
         expect_identical(a$response, 35L)
+        expect_identical(a, getCache("https://beta.crunch.io/api/datasets"))
     })
 
     without_internet({
