@@ -22,7 +22,7 @@ public({
             b <- GET("https://beta.crunch.io/api/", query=list(user="me"))
         })
         expect_length(cacheKeys(), 2)
-        expect_true("https://beta.crunch.io/api/datasets" %in% cacheKeys())
+        expect_true(hitCache("https://beta.crunch.io/api/datasets"))
         expect_identical(a$response, 35L)
     })
 
@@ -57,6 +57,9 @@ public({
             ## It's in the cache
             expect_identical(GET("https://beta.crunch.io/api/",
                 query=list(user="me"))$response, 27L)
+            ## Hey, let's try with the cache API
+            expect_identical(getCache(buildCacheKey("https://beta.crunch.io/api/",
+                query=list(user="me")))$response, 27L)
         })
         ## Now bust cache
         with_mock_HTTP({
