@@ -20,16 +20,12 @@
 #' @importFrom downloader download
 cachedDownload <- function (url, destfile, ...) {
     validateURL(url)
-    cache.is.on <- caching()
-    if (cache.is.on) {
+    if (caching()) {
         Call <- match.call(expand.dots = TRUE)
         cache.url <- buildCacheKey(url, query=eval.parent(Call$query),
             extras="DOWNLOAD")
-        if (exists(cache.url, envir=cache)) {
-            logMessage("CACHE HIT", cache.url)
-            ## Find where we've already downloaded the file
-            download.to <- get(cache.url, envir=cache)
-        } else {
+        download.to <- getCache(cache.url)
+        if (is.null(download.to)) {
             ## Fresh download. Generate tempfile to write to
             download.to <- tempfile()
         }
@@ -46,8 +42,7 @@ cachedDownload <- function (url, destfile, ...) {
             success <- exit.status == 0
             logMessage("HTTP DOWNLOAD", url, ifelse(success, 200, 400))
             if (success) {
-                logMessage("CACHE SET", cache.url)
-                assign(cache.url, download.to, envir=cache)
+                setCache(cache.url, download.to)
             }
         }
 

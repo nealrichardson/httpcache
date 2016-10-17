@@ -34,6 +34,39 @@ clearCache <- function () {
     rm(list=cacheKeys(), envir=cache)
 }
 
+#' HTTP Cache API
+#'
+#' These functions provide access to what's stored in the cache.
+#' @param key character, typically a URL or similar
+#' @param value For \code{setCache}, an R object to set in the cache for
+#' \code{key}.
+#' @return \code{hitCache} returns logical whether \code{key} exists in the
+#' cache. \code{getCache} returns the value stored in the cache, or \code{NULL}
+#' if there is nothing cached. \code{setCache} is called for its side effects.
+#' @name cache-api
+#' @export
+hitCache <- function (key) {
+    exists(key, envir=cache)
+}
+
+#' @rdname cache-api
+#' @export
+getCache <- function (key) {
+    if (hitCache(key)) {
+        logMessage("CACHE HIT", key)
+        return(get(key, envir=cache))
+    } else {
+        return(NULL)
+    }
+}
+
+#' @rdname cache-api
+#' @export
+setCache <- function (key, value) {
+    logMessage("CACHE SET", key)
+    assign(key, value, envir=cache)
+}
+
 cacheKeys <- function () ls(all.names=TRUE, envir=cache)
 
 #' Construct a unique cache key for a request

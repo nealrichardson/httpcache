@@ -34,16 +34,16 @@ GET <- function (url, ...) {
     if (cache.is.on) {
         Call <- match.call(expand.dots = TRUE)
         cache.url <- buildCacheKey(url, query=eval.parent(Call$query))
-        if (exists(cache.url, envir=cache)) {
-            logMessage("CACHE HIT", cache.url)
-            return(get(cache.url, envir=cache))
+        cached <- getCache(cache.url)
+        if (!is.null(cached)) {
+            ## Hit! Return that.
+            return(cached)
         }
     }
     x <- httr::GET(url, ...)
     logMessage(responseStatusLog(x))
     if (cache.is.on && x$status_code == 200) {
-        logMessage("CACHE SET", cache.url)
-        assign(cache.url, x, envir=cache)
+        setCache(cache.url, x)
     }
     return(x)
 }
@@ -88,17 +88,17 @@ cachedPOST <- function (url, ...) {
     if (cache.is.on) {
         Call <- match.call(expand.dots = TRUE)
         cache.url <- buildCacheKey(url, body=eval.parent(Call$body), extras="POST")
-        if (exists(cache.url, envir=cache)) {
-            logMessage("CACHE HIT", cache.url)
-            return(get(cache.url, envir=cache))
+        cached <- getCache(cache.url)
+        if (!is.null(cached)) {
+            ## Hit! Return that.
+            return(cached)
         }
     }
     x <- httr::POST(url, ...)
     logMessage(responseStatusLog(x))
     if (cache.is.on && x$status_code < 400) {
         ## Cache any non-error response
-        logMessage("CACHE SET", cache.url)
-        assign(cache.url, x, envir=cache)
+        setCache(cache.url, x)
     }
     return(x)
 }
