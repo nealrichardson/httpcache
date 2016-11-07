@@ -17,7 +17,7 @@
 #' external program.  The \code{"internal"} method can return \code{1}, but will
 #' in most cases throw an error."
 #' @export
-#' @importFrom downloader download
+#' @importFrom utils download.file
 cachedDownload <- function (url, destfile, ...) {
     validateURL(url)
     if (caching()) {
@@ -38,7 +38,7 @@ cachedDownload <- function (url, destfile, ...) {
             exit.status <- 0
         } else {
             ## Else, download and record in cache.
-            exit.status <- download(url, destfile=download.to, ...)
+            exit.status <- download.file(url, destfile=download.to, ...)
             success <- exit.status == 0
             logMessage("HTTP DOWNLOAD", url, ifelse(success, 200, 400))
             if (success) {
@@ -51,6 +51,6 @@ cachedDownload <- function (url, destfile, ...) {
         file.copy(download.to, destfile)
         return(exit.status)
     } else {
-        return(download(url, destfile, ...))
+        return(download.file(url, destfile, ...))
     }
 }
