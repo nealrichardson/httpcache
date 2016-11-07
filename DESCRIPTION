@@ -22,7 +22,6 @@ Depends:
     R (>= 3.0.0)
 Imports:
     digest,
-    downloader,
     httr (>= 1.0.0)
 Suggests:
     knitr,
