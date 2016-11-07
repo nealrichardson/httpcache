@@ -3,7 +3,7 @@
 New cached request functions:
 
 * `cachedPOST` to cache results of a POST request for resources where a POST gets content and does not alter server state.
-* `cachedDownload` to cache result of `download.file`. 
+* `cachedDownload` to cache result of `download.file`.
 
 Functions to access the cache API:
 
@@ -16,6 +16,11 @@ Tools to save and restore cached queries across R sessions:
 
 * `saveCache`
 * `loadCache`
+
+Other changes:
+
+* Trim trailing whitespace in log messages
+* Fix `loadLogfile` for when reading a log with only CACHE messages
 
 ### httpcache 0.1.8
 * Include milliseconds in timestamps

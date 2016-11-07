@@ -6,7 +6,8 @@
 logMessage <- function (...) {
     logfile <- getOption("httpcache.log")
     if (!is.null(logfile)) {
-        cat(strftime(Sys.time(), "%Y-%m-%dT%H:%M:%OS3"), ..., "\n", file=logfile, append=TRUE)
+        msg <- paste(strftime(Sys.time(), "%Y-%m-%dT%H:%M:%OS3"), ...)
+        cat(msg, "\n", sep="", file=logfile, append=TRUE)
     }
 }
 
@@ -55,11 +56,17 @@ startLog <- function (filename="", append=FALSE) {
 #' @importFrom utils read.delim
 loadLogfile <- function (filename, scope=c("CACHE", "HTTP")) {
     df <- read.delim(filename, sep=" ", header=FALSE,
-        stringsAsFactors=FALSE)[,1:6]
-    names(df) <- c("timestamp", "scope", "verb", "url", "status", "time")
+        stringsAsFactors=FALSE)
+    ## Don't let long error message lines distort our data.frame
+    ## But don't let a log that is only cache hits (and thus no status and
+    ## timing entries) break for being too short
+    dfcols <- 1:min(ncol(df), 6)
+    df <- df[,dfcols]
+    names(df) <- c("timestamp", "scope", "verb", "url", "status", "time")[dfcols]
     df <- df[df$scope %in% scope,] ## Prune out-of-scope things
     df$timestamp <- strptime(df$timestamp, "%Y-%m-%dT%H:%M:%OS")
-    df[c("status", "time")] <- lapply(df[c("status", "time")], as.numeric)
+    numerics <- intersect(c("status", "time"), names(df))
+    df[numerics] <- lapply(df[numerics], as.numeric)
     return(df)
 }
 
