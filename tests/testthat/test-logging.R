@@ -51,9 +51,9 @@ public({
         expect_length(loglines2, 14)
         expect_identical(loglines2[1:12], loglines)
         expect_identical(pruneTimestamp(loglines2[13]),
-            "HTTP DELETE https://github.com/nealrichardson/not_a_real_repo/ 204 50 ")
+            "HTTP DELETE https://github.com/nealrichardson/not_a_real_repo/ 204 50")
         expect_identical(pruneTimestamp(loglines2[14]),
-            "CACHE DROP ^https://github[.]com/nealrichardson/not_a_real_repo/ ")
+            "CACHE DROP ^https://github[.]com/nealrichardson/not_a_real_repo/")
     })
 
     test_that("startLog overwrites log file if exists (by default)", {
@@ -62,7 +62,10 @@ public({
             GET("https://github.com/")
         })
         expect_identical(pruneTimestamp(readLines(logfile)),
-            "CACHE HIT https://github.com/ ")
+            "CACHE HIT https://github.com/")
+        logdf <- loadLogfile(logfile)
+        expect_true(is.data.frame(logdf))
+        expect_identical(dim(logdf), c(1L, 4L))
     })
 
     test_that("httr integration + cache behavior + logging to stdout", {
