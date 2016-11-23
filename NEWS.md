@@ -19,6 +19,7 @@ Tools to save and restore cached queries across R sessions:
 
 Other changes:
 
+* Add content-length and all curl request timings (not just "total") to log messages.
 * Trim trailing whitespace in log messages
 * Fix `loadLogfile` for when reading a log with only CACHE messages
 
