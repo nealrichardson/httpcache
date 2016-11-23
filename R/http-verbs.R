@@ -123,13 +123,17 @@ DELETE <- function (url, ..., drop=dropCache(url)) {
     return(x)
 }
 
+## Borrowed from Hadley
+"%||%" <- function (a, b) if (!is.null(a)) a else b
+
 responseStatusLog <- function (response) {
     req <- response$request
     return(paste("HTTP",
         req$method,
         req$url,
         response$status_code,
-        response$times["total"]))
+        response$headers[["content-length"]] %||% "NA",
+        paste(response$times, collapse=" ")))
 }
 
 validateURL <- function (url) {
