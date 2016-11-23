@@ -55,17 +55,20 @@ startLog <- function (filename="", append=FALSE) {
 #' @export
 #' @importFrom utils read.delim
 loadLogfile <- function (filename, scope=c("CACHE", "HTTP")) {
-    df <- read.delim(filename, sep=" ", header=FALSE,
-        stringsAsFactors=FALSE)
+    df <- read.delim(filename, sep=" ", header=FALSE, stringsAsFactors=FALSE)
+
+    numeric.cols <- c("status", "content_length", "redirect", "namelookup",
+        "connect", "pretransfer", "starttransfer", "total")
+    all.cols <- c("timestamp", "scope", "verb", "url", numeric.cols)
     ## Don't let long error message lines distort our data.frame
     ## But don't let a log that is only cache hits (and thus no status and
     ## timing entries) break for being too short
-    dfcols <- 1:min(ncol(df), 6)
+    dfcols <- 1:min(ncol(df), length(all.cols))
     df <- df[,dfcols]
-    names(df) <- c("timestamp", "scope", "verb", "url", "status", "time")[dfcols]
+    names(df) <- all.cols[dfcols]
     df <- df[df$scope %in% scope,] ## Prune out-of-scope things
     df$timestamp <- strptime(df$timestamp, "%Y-%m-%dT%H:%M:%OS")
-    numerics <- intersect(c("status", "time"), names(df))
+    numerics <- intersect(c("status", numeric.cols), names(df))
     df[numerics] <- lapply(df[numerics], as.numeric)
     return(df)
 }
@@ -95,7 +98,7 @@ requestLogSummary <- function (logdf) {
         head(logdf$timestamp, 1), units="secs"))
     df <- logdf[logdf$scope == "HTTP",]
     counts <- table(df$verb)
-    req.time <- sum(df$time, na.rm=TRUE)
+    req.time <- sum(df$total, na.rm=TRUE)
     pct.http.time <- 100*req.time/total.time
     return(list(counts=counts, req.time=req.time, total.time=total.time,
         pct.http.time=pct.http.time))

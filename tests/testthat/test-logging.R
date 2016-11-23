@@ -10,7 +10,8 @@ public({
         try(halt("Panic!"), silent=TRUE)
         GET("https://github.com/nealrichardson/httpcache/")
         GET("https://github.com/nealrichardson/")
-        suppressMessages(POST("https://github.com/nealrichardson/"))
+        GET("https://github.com/nealrichardson/", query=list(q=1))
+        suppressMessages(PUT("https://github.com/nealrichardson/"))
         GET("https://github.com/nealrichardson/")
     })
 
@@ -20,24 +21,28 @@ public({
     req.summary <- requestLogSummary(logdf)
 
     test_that("Log writes to file", {
-        expect_length(loglines, 12)
+        expect_length(loglines, 14)
         expect_equivalent(logdf[,2:4], data.frame(
             scope=c("HTTP", "CACHE", "HTTP", "CACHE", "HTTP", "CACHE", "CACHE",
-                    "HTTP", "CACHE", "HTTP", "CACHE"),
+                    "HTTP", "CACHE", "HTTP", "CACHE", "HTTP", "CACHE"),
             verb=c("GET", "SET", "GET", "SET", "GET", "SET", "HIT",
-                    "POST", "DROP", "GET", "SET"),
+                    "GET", "SET", "PUT", "DROP", "GET", "SET"),
             url=c(rep("https://github.com/", 2),
                 rep("https://github.com/nealrichardson/", 2),
                 rep("https://github.com/nealrichardson/httpcache/", 2),
-                rep("https://github.com/nealrichardson/", 5)),
+                rep("https://github.com/nealrichardson/", 2),
+                buildCacheKey("https://github.com/nealrichardson/", query=list(q=1)),
+                "https://github.com/nealrichardson/",
+                "^https://github[.]com/nealrichardson/",
+                rep("https://github.com/nealrichardson/", 2)),
             stringsAsFactors=FALSE))
         expect_false(any(is.na(logdf$timestamp)))
         expect_equivalent(cache.summary, list(
-                counts=structure(c(1L, 1L, 4L),
+                counts=structure(c(1L, 1L, 5L),
                     .Names=c("DROP", "HIT", "SET"), class="table"),
-                hit.rate=c(HIT=20)
+                hit.rate=c(HIT=100/6)
             ))
-        expect_equivalent(req.summary$req.time, 165)
+        expect_equivalent(req.summary$req.time, 199)
     })
 
     pruneTimestamp <- function (entry) substr(entry, 25, nchar(entry))
@@ -48,11 +53,11 @@ public({
             DELETE("https://github.com/nealrichardson/not_a_real_repo/")
         })
         loglines2 <- readLines(logfile)
-        expect_length(loglines2, 14)
-        expect_identical(loglines2[1:12], loglines)
-        expect_identical(pruneTimestamp(loglines2[13]),
-            "HTTP DELETE https://github.com/nealrichardson/not_a_real_repo/ 204 50")
-        expect_identical(pruneTimestamp(loglines2[14]),
+        expect_length(loglines2, 16)
+        expect_identical(loglines2[1:14], loglines)
+        expect_identical(pruneTimestamp(loglines2[15]),
+            "HTTP DELETE https://github.com/nealrichardson/not_a_real_repo/ 204 NA 0 0 0 0 0 50")
+        expect_identical(pruneTimestamp(loglines2[16]),
             "CACHE DROP ^https://github[.]com/nealrichardson/not_a_real_repo/")
     })
 
