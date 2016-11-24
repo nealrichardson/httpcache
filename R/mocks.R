@@ -103,3 +103,7 @@ fakeDownload <- function (url, destfile, ...) {
     file.copy(url, destfile)
     return(0)
 }
+
+## This exists in the package but not exported so that we can test the behavior
+## of the `public` test context
+.internalFunction <- function () TRUE
