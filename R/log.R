@@ -11,6 +11,17 @@ logMessage <- function (...) {
     }
 }
 
+responseStatusLog <- function (response) {
+    ## Log message content for a HTTP response
+    req <- response$request
+    return(paste("HTTP",
+        req$method,
+        req$url,
+        response$status_code,
+        response$headers[["content-length"]] %||% "NA",
+        paste(round(response$times, 3), collapse=" ")))
+}
+
 #' Stop, log, and no call
 #'
 #' Wrapper around \code{stop} that logs the error message and then stops
@@ -103,3 +114,6 @@ requestLogSummary <- function (logdf) {
     return(list(counts=counts, req.time=req.time, total.time=total.time,
         pct.http.time=pct.http.time))
 }
+
+## Borrowed from Hadley
+"%||%" <- function (a, b) if (!is.null(a)) a else b
