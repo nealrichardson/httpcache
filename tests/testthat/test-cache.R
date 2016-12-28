@@ -17,7 +17,7 @@ public({
 
     test_that("Cache gets set on GET", {
         expect_length(cacheKeys(), 0)
-        with_mock_HTTP({
+        with_fake_HTTP({
             a <- GET("https://app.crunch.io/api/datasets")
             b <- GET("https://app.crunch.io/api/", query=list(user="me"))
         })
@@ -41,7 +41,7 @@ public({
 
     test_that("PUT busts cache", {
         ## Now bust cache
-        with_mock_HTTP({
+        with_fake_HTTP({
             expect_message(PUT("https://app.crunch.io/api/datasets"),
                 "PUT https://app.crunch.io/api/datasets ")
         })
@@ -63,7 +63,7 @@ public({
                 query=list(user="me")))), list(user="me"))
         })
         ## Now bust cache
-        with_mock_HTTP({
+        with_fake_HTTP({
             expect_message(PATCH("https://app.crunch.io/api/"),
                 "PATCH https://app.crunch.io/api/ ")
         })
@@ -76,7 +76,7 @@ public({
     })
 
     test_that("POST busts cache more narrowly by default", {
-        with_mock_HTTP({
+        with_fake_HTTP({
             a <- GET("https://app.crunch.io/api/datasets")
             b <- GET("https://app.crunch.io/api/", query=list(user="me"))
         })
@@ -90,7 +90,7 @@ public({
                     list(user="me"))
             })
         })
-        with_mock_HTTP({
+        with_fake_HTTP({
             p1 <- POST("https://app.crunch.io/api/")
         })
         without_internet({
@@ -103,7 +103,7 @@ public({
                     list(user="me"))
             })
         })
-        with_mock_HTTP({
+        with_fake_HTTP({
             p2 <- POST("https://app.crunch.io/api/datasets")
         })
         without_internet({
@@ -120,14 +120,14 @@ public({
 
     test_that("cacheOff stops caching and clears existing cache", {
         clearCache() ## So we're clean
-        with_mock_HTTP({
+        with_fake_HTTP({
             GET("https://app.crunch.io/api/datasets")
         })
         expect_length(cacheKeys(), 1)
         cacheOff()
         on.exit(cacheOn()) ## Turn it back on
         expect_length(cacheKeys(), 0)
-        with_mock_HTTP({
+        with_fake_HTTP({
             a <- GET("https://app.crunch.io/api/datasets")
         })
         expect_length(cacheKeys(), 0)
