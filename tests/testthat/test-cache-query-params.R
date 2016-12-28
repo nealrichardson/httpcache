@@ -5,7 +5,7 @@ public({
     long.query <- list(query=paste(rep("Q", 10000), collapse=""))
     test_that("Checking cache even with cache off doesn't fail on long query", {
         uncached({
-            with_mock_HTTP({
+            with_fake_HTTP({
                 z <- GET("https://app.crunch.io/api/users/", query=long.query)
             })
         })
@@ -14,7 +14,7 @@ public({
 
     clearCache()
     test_that("cache gets set on GET even with long query", {
-        with_mock_HTTP({
+        with_fake_HTTP({
             GET("https://app.crunch.io/api/users/", query=long.query)
         })
         expect_true(hitCache(buildCacheKey("https://app.crunch.io/api/users/",

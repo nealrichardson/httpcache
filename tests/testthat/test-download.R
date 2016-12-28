@@ -6,7 +6,7 @@ public({
         testfile <- tempfile()
         expect_length(cacheKeys(), 0)
         expect_false(file.exists(testfile))
-        with_mock_HTTP({
+        with_fake_HTTP({
             a <- cachedDownload("helper.R", testfile)
         })
         expect_identical(cacheKeys(), "helper.R?DOWNLOAD")

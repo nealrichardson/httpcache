@@ -4,7 +4,7 @@ public({
     clearCache()
     test_that("Cache gets set on GET", {
         expect_length(cacheKeys(), 0)
-        with_mock_HTTP({
+        with_fake_HTTP({
             a <- GET("https://app.crunch.io/api/datasets")
             b <- GET("https://app.crunch.io/api/", query=list(user="me"))
         })

@@ -4,7 +4,7 @@ public({
     clearCache()
     test_that("Cache gets set on cachedPOST", {
         expect_length(cacheKeys(), 0)
-        with_mock_HTTP({
+        with_fake_HTTP({
             a <- cachedPOST("https://app.crunch.io/api/")
             b <- cachedPOST("https://app.crunch.io/api/", body='{"user":"me"}')
         })

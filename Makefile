@@ -6,7 +6,7 @@ doc:
 
 test:
 	R CMD INSTALL --install-tests .
-	R --slave -e 'library(testthat); setwd(file.path(.libPaths()[1], "httpcache", "tests")); system.time(test_check("httpcache", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
+	R --slave -e 'library(httptest); setwd(file.path(.libPaths()[1], "httpcache", "tests")); system.time(test_check("httpcache", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
 
 deps:
 	R --slave -e 'install.packages(c("httr", "codetools", "testthat", "devtools", "digest"), repo="http://cran.at.r-project.org", lib=ifelse(nchar(Sys.getenv("R_LIB")), Sys.getenv("R_LIB"), .libPaths()[1]))'

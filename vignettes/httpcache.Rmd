@@ -14,8 +14,9 @@ library(httpcache)
 ```
 
 ```{r, results='hide', echo=FALSE, message=FALSE}
+library(httptest)
 options(width=120)
-with_mock_HTTP <- function (expr) {
+with_fake_HTTP <- function (expr) {
     testthat::with_mock(
         `httr::GET`=fakeGET,
         `httr::PUT`=fakePUT,
@@ -66,17 +67,6 @@ fakeDELETE <- function (url, body=NULL, ...) {
         times=structure(nchar(url), .Names="total"),
         request=list(method="DELETE", url=url)
     ))
-}
-
-without_internet <- function (expr) {
-    with_mock(
-        `httr::GET`=function (url, ...) halt("GET ", url),
-        `httr::PUT`=function (url, body, ...) halt("PUT ", url, " ", body),
-        `httr::PATCH`=function (url, body, ...) halt("PATCH ", url, " ", body),
-        `httr::POST`=function (url, body, ...) halt("POST ", url, " ", body),
-        `httr::DELETE`=function (url, ...) halt("DELETE ", url),
-        eval.parent(expr)
-    )
 }
 ```
 

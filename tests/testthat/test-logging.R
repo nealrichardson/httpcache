@@ -4,7 +4,7 @@ public({
     logfile <- tempfile()
     startLog(logfile)
 
-    with_mock_HTTP({
+    with_fake_HTTP({
         GET("https://github.com/")
         GET("https://github.com/nealrichardson/")
         try(halt("Panic!"), silent=TRUE)
@@ -49,7 +49,7 @@ public({
 
     test_that("startLog appending", {
         startLog(logfile, append=TRUE)
-        with_mock_HTTP({
+        with_fake_HTTP({
             DELETE("https://github.com/nealrichardson/not_a_real_repo/")
         })
         loglines2 <- readLines(logfile)
@@ -63,7 +63,7 @@ public({
 
     test_that("startLog overwrites log file if exists (by default)", {
         startLog(logfile)
-        with_mock_HTTP({
+        with_fake_HTTP({
             GET("https://github.com/")
         })
         expect_identical(pruneTimestamp(readLines(logfile)),

@@ -22,7 +22,7 @@ test_that("regexEscape", {
 public({
     clearCache()
     ## Load some stuff into the cache
-    with_mock_HTTP({
+    with_fake_HTTP({
         GET("https://github.com/")
         GET("https://github.com/nealrichardson/")
         GET("https://github.com/nealrichardson/httpcache/")

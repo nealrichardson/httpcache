@@ -26,6 +26,6 @@ Imports:
     jsonlite (>= 0.9.15)
 Suggests:
     knitr,
-    testthat
+    httptest
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
