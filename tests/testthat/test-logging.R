@@ -4,15 +4,18 @@ public({
     logfile <- tempfile()
     startLog(logfile)
 
-    with_fake_HTTP({
-        GET("https://github.com/")
-        GET("https://github.com/nealrichardson/")
-        try(halt("Panic!"), silent=TRUE)
-        GET("https://github.com/nealrichardson/httpcache/")
-        GET("https://github.com/nealrichardson/")
-        GET("https://github.com/nealrichardson/", query=list(q=1))
-        suppressMessages(PUT("https://github.com/nealrichardson/"))
-        GET("https://github.com/nealrichardson/")
+    test_that("Warming the cache and log", {
+        with_fake_HTTP({
+            expect_GET(GET("https://github.com/"))
+            expect_GET(GET("https://github.com/nealrichardson/"))
+            try(halt("Panic!"), silent=TRUE)
+            expect_GET(GET("https://github.com/nealrichardson/httpcache/"))
+            expect_no_request(GET("https://github.com/nealrichardson/")) ## Cache hit
+            expect_GET(GET("https://github.com/nealrichardson/",
+                query=list(q=1)))
+            expect_PUT(PUT("https://github.com/nealrichardson/"))
+            expect_GET(GET("https://github.com/nealrichardson/"))
+        })
     })
 
     loglines <- readLines(logfile)
@@ -30,7 +33,8 @@ public({
             url=c(rep("https://github.com/", 2),
                 rep("https://github.com/nealrichardson/", 2),
                 rep("https://github.com/nealrichardson/httpcache/", 2),
-                rep("https://github.com/nealrichardson/", 2),
+                "https://github.com/nealrichardson/",
+                "https://github.com/nealrichardson/?q=1",
                 buildCacheKey("https://github.com/nealrichardson/", query=list(q=1)),
                 "https://github.com/nealrichardson/",
                 "^https://github[.]com/nealrichardson/",
@@ -42,7 +46,7 @@ public({
                     .Names=c("DROP", "HIT", "SET"), class="table"),
                 hit.rate=c(HIT=100/6)
             ))
-        expect_equivalent(req.summary$req.time, 199)
+        expect_equivalent(req.summary$req.time, 203)
     })
 
     pruneTimestamp <- function (entry) substr(entry, 25, nchar(entry))

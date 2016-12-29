@@ -18,19 +18,20 @@ public({
     test_that("Cache gets set on GET", {
         expect_length(cacheKeys(), 0)
         with_fake_HTTP({
-            a <- GET("https://app.crunch.io/api/datasets")
-            b <- GET("https://app.crunch.io/api/", query=list(user="me"))
+            expect_GET(a <- GET("https://app.crunch.io/api/datasets"),
+                "https://app.crunch.io/api/datasets")
+            expect_GET(b <- GET("https://app.crunch.io/api/", query=list(user="me")),
+                "https://app.crunch.io/api/?user=me")
         })
         expect_length(cacheKeys(), 2)
         expect_true(hitCache("https://app.crunch.io/api/datasets"))
-        expect_identical(content(a), "https://app.crunch.io/api/datasets")
         expect_identical(a, getCache("https://app.crunch.io/api/datasets"))
     })
 
     without_internet({
         test_that("When the cache is set, can read from it even with no connection", {
             ## Now read from cache
-            expect_identical(content(GET("https://app.crunch.io/api/datasets")),
+            expect_identical(GET("https://app.crunch.io/api/datasets")$url,
                 "https://app.crunch.io/api/datasets")
         })
         test_that("But uncached() prevents reading from the cache", {
@@ -42,8 +43,8 @@ public({
     test_that("PUT busts cache", {
         ## Now bust cache
         with_fake_HTTP({
-            expect_message(PUT("https://app.crunch.io/api/datasets"),
-                "PUT https://app.crunch.io/api/datasets ")
+            expect_PUT(PUT("https://app.crunch.io/api/datasets"),
+                "https://app.crunch.io/api/datasets")
         })
         ## See that it's no longer in the cache
         expect_length(cacheKeys(), 1)
@@ -56,82 +57,97 @@ public({
     test_that("PATCH busts cache", {
         without_internet({
             ## It's in the cache
-            expect_identical(content(GET("https://app.crunch.io/api/",
-                query=list(user="me"))), list(user="me"))
+            expect_no_request(q <- GET("https://app.crunch.io/api/",
+                query=list(user="me")))
+            expect_identical(q$url, "https://app.crunch.io/api/?user=me")
             ## Hey, let's try with the cache API
-            expect_identical(content(getCache(buildCacheKey("https://app.crunch.io/api/",
-                query=list(user="me")))), list(user="me"))
+            expect_identical(getCache(buildCacheKey("https://app.crunch.io/api/",
+                query=list(user="me"))), q)
         })
         ## Now bust cache
         with_fake_HTTP({
-            expect_message(PATCH("https://app.crunch.io/api/"),
-                "PATCH https://app.crunch.io/api/ ")
+            expect_PATCH(PATCH("https://app.crunch.io/api/"),
+                "https://app.crunch.io/api/")
         })
         ## See that it's no longer in the cache
         expect_length(cacheKeys(), 0)
         without_internet({
-            expect_error(GET("https://app.crunch.io/api/", query=list(user="me")),
-                "GET https://app.crunch.io/api/")
+            expect_GET(GET("https://app.crunch.io/api/", query=list(user="me")),
+                "https://app.crunch.io/api/?user=me")
         })
     })
 
-    test_that("POST busts cache more narrowly by default", {
+    test_that("POST busts cache more narrowly by default: setup", {
         with_fake_HTTP({
-            a <- GET("https://app.crunch.io/api/datasets")
-            b <- GET("https://app.crunch.io/api/", query=list(user="me"))
+            expect_GET(a <<- GET("https://app.crunch.io/api/datasets"),
+                "https://app.crunch.io/api/datasets")
+            expect_GET(b <<- GET("https://app.crunch.io/api/", query=list(user="me")),
+                "https://app.crunch.io/api/?user=me")
         })
-        without_internet({
-            test_that("See that cache is set", {
-                ## Now read from cache
-                expect_identical(content(GET("https://app.crunch.io/api/datasets")),
-                    "https://app.crunch.io/api/datasets")
-                expect_identical(content(GET("https://app.crunch.io/api/",
-                    query=list(user="me"))),
-                    list(user="me"))
-            })
+    })
+    without_internet({
+        test_that("See that cache is set", {
+            ## Now read from cache
+            expect_no_request(
+                expect_identical(GET("https://app.crunch.io/api/datasets"),
+                    a)
+            )
+            expect_no_request(
+                expect_identical(GET("https://app.crunch.io/api/",
+                    query=list(user="me")), b)
+            )
         })
-        with_fake_HTTP({
-            p1 <- POST("https://app.crunch.io/api/")
+    })
+    with_fake_HTTP({
+        test_that("POSTing to a different resource doesn't bust cache", {
+            expect_POST(p1 <- POST("https://app.crunch.io/api/"),
+                "https://app.crunch.io/api/")
         })
-        without_internet({
-            test_that("Cache was unaffected by that", {
-                ## Now read from cache
-                expect_identical(content(GET("https://app.crunch.io/api/datasets")),
-                    "https://app.crunch.io/api/datasets")
-                expect_identical(content(GET("https://app.crunch.io/api/",
-                    query=list(user="me"))),
-                    list(user="me"))
-            })
+    })
+    without_internet({
+        test_that("Cache was unaffected by that", {
+            ## Now read from cache
+            expect_no_request(
+                expect_identical(GET("https://app.crunch.io/api/datasets"),
+                    a)
+            )
+            expect_no_request(
+                expect_identical(GET("https://app.crunch.io/api/",
+                    query=list(user="me")), b)
+            )
         })
-        with_fake_HTTP({
-            p2 <- POST("https://app.crunch.io/api/datasets")
+    })
+    with_fake_HTTP({
+        test_that("POSTing busts cache narrowly", {
+            expect_POST(p2 <- POST("https://app.crunch.io/api/datasets"),
+                "https://app.crunch.io/api/datasets")
         })
-        without_internet({
-            test_that("Only that resource had its cache busted", {
-                ## Now read from cache
-                expect_error(GET("https://app.crunch.io/api/datasets"),
-                    "https://app.crunch.io/api/datasets")
-                expect_identical(content(GET("https://app.crunch.io/api/",
-                    query=list(user="me"))),
-                    list(user="me"))
-            })
+    })
+    without_internet({
+        test_that("Only that resource had its cache busted", {
+            expect_GET(GET("https://app.crunch.io/api/datasets"),
+                "https://app.crunch.io/api/datasets")
+            expect_no_request(
+                expect_identical(GET("https://app.crunch.io/api/",
+                    query=list(user="me")), b)
+            )
         })
     })
 
     test_that("cacheOff stops caching and clears existing cache", {
         clearCache() ## So we're clean
         with_fake_HTTP({
-            GET("https://app.crunch.io/api/datasets")
+            expect_GET(GET("https://app.crunch.io/api/datasets"))
         })
         expect_length(cacheKeys(), 1)
         cacheOff()
         on.exit(cacheOn()) ## Turn it back on
         expect_length(cacheKeys(), 0)
         with_fake_HTTP({
-            a <- GET("https://app.crunch.io/api/datasets")
+            expect_GET(a <- GET("https://app.crunch.io/api/datasets"))
         })
         expect_length(cacheKeys(), 0)
-        expect_identical(content(a), "https://app.crunch.io/api/datasets")
+        expect_identical(a$url, "https://app.crunch.io/api/datasets")
     })
 
     test_that("Requests with an invalid URL return a useful error", {
