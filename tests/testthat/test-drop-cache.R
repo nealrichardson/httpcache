@@ -22,15 +22,16 @@ test_that("regexEscape", {
 public({
     clearCache()
     ## Load some stuff into the cache
-    with_fake_HTTP({
-        GET("https://github.com/")
-        GET("https://github.com/nealrichardson/")
-        GET("https://github.com/nealrichardson/httpcache/")
-        GET("https://github.com/nealrichardson/httr/")
-        GET("http://google.com/")
-        GET("http://google.co.uk/")
-    })
+
     test_that("Initial cache load", {
+        with_fake_HTTP({
+            expect_GET(GET("https://github.com/"))
+            expect_GET(GET("https://github.com/nealrichardson/"))
+            expect_GET(GET("https://github.com/nealrichardson/httpcache/"))
+            expect_GET(GET("https://github.com/nealrichardson/httr/"))
+            expect_GET(GET("http://google.com/"))
+            expect_GET(GET("http://google.co.uk/"))
+        })
         expect_true(setequal(cacheKeys(),
             c("https://github.com/",
             "https://github.com/nealrichardson/",
