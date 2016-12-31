@@ -1,4 +1,4 @@
-# httpcache 0.99.0
+# httpcache 1.0.0
 
 New cached request functions:
 
@@ -22,10 +22,6 @@ Logging improvements:
 * Add content-length and all curl request timings (not just "total") to log messages.
 * Trim trailing whitespace in log messages
 * Fix `loadLogfile` for when reading a log with only CACHE messages
-
-Other enhancements:
-
-* Mock HTTP verb functions `fakeGET`, `fakePUT`, etc. to facilitate testing HTTP API client packages without requiring a running server or network connection.
 
 ### httpcache 0.1.8
 * Include milliseconds in timestamps
