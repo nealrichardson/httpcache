@@ -7,11 +7,12 @@ public({
         expect_length(cacheKeys(), 0)
         expect_false(file.exists(testfile))
         with_fake_HTTP({
-            a <- cachedDownload("helper.R", testfile)
+            expect_message(a <- cachedDownload("helper.R", testfile),
+                "DOWNLOAD helper.R")
         })
         expect_identical(cacheKeys(), "helper.R?DOWNLOAD")
         expect_true(file.exists(testfile))
-        expect_identical(readLines(testfile), readLines("helper.R"))
+        expect_identical(readLines(testfile), "helper.R")
         expect_equal(a, 0)
     })
 
@@ -19,8 +20,8 @@ public({
         test_that("When the cache is set, can read from it even with no connection", {
             ## Now read from cache
             testfile2 <- tempfile()
-            b <- cachedDownload("helper.R", testfile2)
-            expect_identical(readLines(testfile2), readLines("helper.R"))
+            expect_no_request(b <- cachedDownload("helper.R", testfile2))
+            expect_identical(readLines(testfile2), "helper.R")
             expect_equal(b, 0)
         })
         test_that("But uncached() prevents reading from the cache", {
