@@ -14,60 +14,7 @@ library(httpcache)
 ```
 
 ```{r, results='hide', echo=FALSE, message=FALSE}
-library(httptest)
 options(width=120)
-with_fake_HTTP <- function (expr) {
-    testthat::with_mock(
-        `httr::GET`=fakeGET,
-        `httr::PUT`=fakePUT,
-        `httr::PATCH`=fakePATCH,
-        `httr::POST`=fakePOST,
-        `httr::DELETE`=fakeDELETE,
-        eval.parent(expr)
-    )
-}
-
-fakeGET <- function (url, ...) {
-    ## Return something shaped enough like an httr response object for log tests
-    return(list(
-        status_code=200,
-        times=structure(nchar(url), .Names="total"),
-        request=list(method="GET", url=url),
-        response=nchar(url)
-    ))
-}
-
-fakePUT <- function (url, body=NULL, ...) {
-    return(list(
-        status_code=204,
-        times=structure(nchar(url), .Names="total"),
-        request=list(method="PUT", url=url)
-    ))
-}
-
-fakePATCH <- function (url, body=NULL, ...) {
-    return(list(
-        status_code=204,
-        times=structure(nchar(url), .Names="total"),
-        request=list(method="PATCH", url=url)
-    ))
-}
-
-fakePOST <- function (url, body=NULL, ...) {
-    return(list(
-        status_code=201,
-        times=structure(nchar(url), .Names="total"),
-        request=list(method="POST", url=url)
-    ))
-}
-
-fakeDELETE <- function (url, body=NULL, ...) {
-    return(list(
-        status_code=204,
-        times=structure(nchar(url), .Names="total"),
-        request=list(method="DELETE", url=url)
-    ))
-}
 ```
 
 
@@ -125,5 +72,10 @@ These verb functions (`POST`, `PUT`, `PATCH`, and `DELETE`) all take a `drop` ar
 
 ## Example
 
-For a more complete example of the caching, logging, and invalidation features, we'll use a mock HTTP interface that allows demonstration of the features of `httpcache` without requiring a network connection. Refer to the [setup code in the test suite](http://github.com/nealrichardson/httpcache/blob/master/tests/testthat/helper-mocks.R) for specifics. We'll make a series of requests, both reads and writes, and we'll capture the action with the logging tools.
+For a more complete example of the caching, logging, and invalidation features, we'll use a mock HTTP interface from the `httptest` package, which allows demonstration of the features of `httpcache` without requiring a network connection.  We'll make a series of requests, both reads and writes, and we'll capture the action with the logging tools.
+
+```{r}
+library(httptest)
+```
+
 <!-- do requests. look at log. show cache invalidation. then show reading without internet -->
