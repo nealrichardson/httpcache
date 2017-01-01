@@ -1,7 +1,6 @@
 #' Cache the result of a file download
 #'
-#' This function wraps \code{\link[downloader]{download}}, which itself wraps
-#' \code{\link[utils]{download.file}} for cross-platform compatibility. When
+#' This function wraps \code{\link[utils]{download.file}}. When
 #' caching is enabled, \code{cachedDownload} will save a copy of the resulting
 #' file to temporary storage and record that location in the query cache.
 #' Subsequent download requests will just copy the cached file to the
@@ -12,8 +11,7 @@
 #' @param ... additional arguments, ultimately passed to \code{download.file}
 #' @return From \code{\link[utils]{download.file}}: "An (invisible) integer
 #' code, \code{0} for success and non-zero for failure.  For the \code{"wget"}
-#' and \code{"curl"} methods [which \code{\link[downloader]{download}} will
-#' appropriately select for you] this is the status code returned by the
+#' and \code{"curl"} methods this is the status code returned by the
 #' external program.  The \code{"internal"} method can return \code{1}, but will
 #' in most cases throw an error."
 #' @export
