@@ -10,7 +10,7 @@ Description: In order to improve performance for HTTP API clients, 'httpcache'
     Finally, 'httpcache' includes a basic logging framework to facilitate the
     measurement of HTTP request time and cache performance.
 Version: 1.0.0
-Date: 2016-12-31
+Date: 2017-01-03
 Authors@R: c(person("Neal", "Richardson", role = c("aut", "cre"),
     email = "neal.p.richardson@gmail.com"))
 Author: Neal Richardson [aut, cre]
@@ -25,7 +25,7 @@ Imports:
     httr (>= 1.0.0),
     jsonlite (>= 0.9.15)
 Suggests:
-    knitr,
-    httptest
+    httptest,
+    knitr
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

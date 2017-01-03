@@ -3,7 +3,7 @@
 New cached request functions:
 
 * `cachedPOST` to cache results of a POST request for resources where a POST gets content and does not alter server state.
-* `cachedDownload` to cache result of `download.file`.
+* `cachedDownload` to cache the result of `download.file`.
 
 Functions to access the cache API:
 
