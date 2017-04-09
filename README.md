@@ -1,6 +1,6 @@
 # httpcache: Query Cache for HTTP Clients
 
-[![Build Status](https://travis-ci.org/nealrichardson/httpcache.png?branch=master)](https://travis-ci.org/nealrichardson/httpcache) [![codecov.io](https://codecov.io/github/nealrichardson/httpcache/coverage.svg?branch=master)](https://codecov.io/github/nealrichardson/httpcache?branch=master)
+[![Build Status](https://travis-ci.org/nealrichardson/httpcache.png?branch=master)](https://travis-ci.org/nealrichardson/httpcache) [![codecov.io](https://codecov.io/github/nealrichardson/httpcache/coverage.svg?branch=master)](https://codecov.io/github/nealrichardson/httpcache?branch=master) [![Build status](https://ci.appveyor.com/api/projects/status/twvekbpe3x2tk2g5?svg=true)](https://ci.appveyor.com/project/nealrichardson/httpcache)
 
 In order to improve performance for HTTP API clients, `httpcache`
 provides simple tools for caching and invalidating cache. It includes the
