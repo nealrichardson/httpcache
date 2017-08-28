@@ -7,7 +7,7 @@
 cacheLogSummary(logdf)
 }
 \arguments{
-\item{logdf}{A logging data.frame, as loaded by \code{link{loadLogfile}}.}
+\item{logdf}{A logging data.frame, as loaded by \code{\link[=loadLogfile]{loadLogfile()}}.}
 }
 \value{
 A list containing counts of cache hit/set/drop events, plus a
@@ -16,4 +16,3 @@ cache hit rate.
 \description{
 Summarize cache performance from a log
 }
-

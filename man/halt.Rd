@@ -9,14 +9,12 @@ halt(..., call. = FALSE)
 \arguments{
 \item{...}{arguments passed to \code{stop}}
 
-\item{call.}{logical: print the call? Default is \code{FALSE}, unlike
-\code{stop}}
+\item{call.}{logical: print the call? Default is \code{FALSE}, unlike \code{stop}}
 }
 \value{
 Nothing. Raises an error.
 }
 \description{
-Wrapper around \code{stop} that logs the error message and then stops
+Wrapper around \code{\link[base:stop]{base::stop()}} that logs the error message and then stops
 with call.=FALSE by default.
 }
-

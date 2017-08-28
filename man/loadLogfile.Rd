@@ -8,11 +8,11 @@ loadLogfile(filename, scope = c("CACHE", "HTTP"))
 }
 \arguments{
 \item{filename}{character name of the log file, passed to
-\code{\link[utils]{read.delim}}}
+\code{\link[utils:read.delim]{utils::read.delim()}}}
 
 \item{scope}{character optional means of selecting only certain log
 messages. By default, only "CACHE" and "HTTP" log messages are kept. Other
-logged messages, such as "ERROR" messages from \code{\link{halt}}, will be
+logged messages, such as "ERROR" messages from \code{\link[=halt]{halt()}}, will be
 dropped from the resulting data.frame.}
 }
 \value{
@@ -21,4 +21,3 @@ A data.frame of log results.
 \description{
 Read in a httpcache log file
 }
-

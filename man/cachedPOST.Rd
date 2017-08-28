@@ -21,6 +21,5 @@ may occur where one might normally GET but the request URI would be too long
 for the server to accept. \code{cachedPOST} thus behaves more like
 \code{GET}, checking for a cached response before performing the request and
 setting cache if the request is successful. It does no cache dropping, unlike
-\code{\link[httpcache]{POST}}.
+\code{\link[httpcache:POST]{httpcache::POST()}}.
 }
-

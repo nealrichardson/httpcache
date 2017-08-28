@@ -7,7 +7,7 @@
 logMessage(...)
 }
 \arguments{
-\item{...}{Strings to pass to \code{cat}}
+\item{...}{Strings to pass to \code{\link[base:cat]{base::cat()}}}
 }
 \value{
 Nothing
@@ -15,4 +15,3 @@ Nothing
 \description{
 Log a message
 }
-

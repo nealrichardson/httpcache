@@ -25,4 +25,3 @@ regular expression matching to invalidate cache. \code{dropCache} is a
 convenience wrapper around \code{dropPattern} that invalidates cache for
 any resources that start with the given URL.
 }
-

@@ -1,6 +1,6 @@
 #' Log a message
 #'
-#' @param ... Strings to pass to \code{cat}
+#' @param ... Strings to pass to [base::cat()]
 #' @return Nothing
 #' @export
 logMessage <- function (...) {
@@ -24,11 +24,10 @@ responseStatusLog <- function (response) {
 
 #' Stop, log, and no call
 #'
-#' Wrapper around \code{stop} that logs the error message and then stops
+#' Wrapper around [base::stop()] that logs the error message and then stops
 #' with call.=FALSE by default.
-#' @param ... arguments passed to \code{stop}
-#' @param call. logical: print the call? Default is \code{FALSE}, unlike
-#' \code{stop}
+#' @param ... arguments passed to `stop`
+#' @param call. logical: print the call? Default is `FALSE`, unlike `stop`
 #' @return Nothing. Raises an error.
 #' @export
 halt <- function (..., call.=FALSE) {
@@ -40,10 +39,9 @@ halt <- function (..., call.=FALSE) {
 #' Enable logging
 #'
 #' @param filename character: a filename/path where the log can be written out.
-#' If \code{""}, messages will print to stdout (the screen). See
-#' \code{\link[base]{cat}}.
+#' If `""`, messages will print to stdout (the screen). See [base::cat()].
 #' @param append logical: if the file already exists, append to it? Default
-#' is \code{FALSE}, and if not in append mode, if the \code{filename} exists,
+#' is `FALSE`, and if not in append mode, if the `filename` exists,
 #' it will be deleted.
 #' @return Nothing.
 #' @export
@@ -57,10 +55,10 @@ startLog <- function (filename="", append=FALSE) {
 #' Read in a httpcache log file
 #'
 #' @param filename character name of the log file, passed to
-#' \code{\link[utils]{read.delim}}
+#' [utils::read.delim()]
 #' @param scope character optional means of selecting only certain log
 #' messages. By default, only "CACHE" and "HTTP" log messages are kept. Other
-#' logged messages, such as "ERROR" messages from \code{\link{halt}}, will be
+#' logged messages, such as "ERROR" messages from [halt()], will be
 #' dropped from the resulting data.frame.
 #' @return A data.frame of log results.
 #' @export
@@ -86,7 +84,7 @@ loadLogfile <- function (filename, scope=c("CACHE", "HTTP")) {
 
 #' Summarize cache performance from a log
 #'
-#' @param logdf A logging data.frame, as loaded by \code{link{loadLogfile}}.
+#' @param logdf A logging data.frame, as loaded by [loadLogfile()].
 #' @return A list containing counts of cache hit/set/drop events, plus a
 #' cache hit rate.
 #' @export
@@ -99,7 +97,7 @@ cacheLogSummary <- function (logdf) {
 
 #' Summarize HTTP requests from a log
 #'
-#' @param logdf A logging data.frame, as loaded by \code{link{loadLogfile}}.
+#' @param logdf A logging data.frame, as loaded by [loadLogfile()].
 #' @return A list containing counts of HTTP requests by verb, as well as
 #' summaries of time spent waiting on HTTP requests.
 #' @export

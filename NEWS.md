@@ -1,3 +1,6 @@
+### httpcache 1.0.2
+* Minor adjustment to a validation function's error message format to adapt to changes in R's development version.
+
 # httpcache 1.0.0
 
 New cached request functions:
