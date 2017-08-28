@@ -153,11 +153,10 @@ public({
     test_that("Requests with an invalid URL return a useful error", {
         expect_error(GET(NULL), "Invalid URL: NULL")
         expect_error(cachedPOST(table(1:5)),
-            "Invalid URL: structure(c(1L, 1L, 1L, 1L, 1L), .Dim = 5L, .Dimnames = structure(list(",
+            "Invalid URL: c(1, 1, 1, 1, 1)",
             fixed=TRUE)
         setClass("TestS4Obj", contains="environment")
         expect_error(cachedDownload(new("TestS4Obj")),
-            'Invalid URL: <S4 object of class structure("TestS4Obj", package = ".GlobalEnv")>',
-            fixed=TRUE)
+            'Invalid URL.*TestS4Obj')
     })
 })

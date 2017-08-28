@@ -127,6 +127,6 @@ validateURL <- function (url) {
     ## Make sure it's a string. Give a useful error if not.
     if (!is.character(url)) {
         ## Basic input validation
-        stop("Invalid URL: ", deparse(url)[1])
+        stop("Invalid URL: ", deparse(url, control=NULL)[1])
     }
 }
