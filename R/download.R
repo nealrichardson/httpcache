@@ -1,18 +1,18 @@
 #' Cache the result of a file download
 #'
-#' This function wraps \code{\link[utils]{download.file}}. When
-#' caching is enabled, \code{cachedDownload} will save a copy of the resulting
+#' This function wraps [utils::download.file()]. When
+#' caching is enabled, `cachedDownload` will save a copy of the resulting
 #' file to temporary storage and record that location in the query cache.
 #' Subsequent download requests will just copy the cached file to the
 #' destination path and not make a request across the network.
 #'
 #' @param url character URL to download
 #' @param destfile character file path/name where the download should be saved
-#' @param ... additional arguments, ultimately passed to \code{download.file}
-#' @return From \code{\link[utils]{download.file}}: "An (invisible) integer
-#' code, \code{0} for success and non-zero for failure.  For the \code{"wget"}
-#' and \code{"curl"} methods this is the status code returned by the
-#' external program.  The \code{"internal"} method can return \code{1}, but will
+#' @param ... additional arguments, ultimately passed to `download.file`
+#' @return From [utils::download.file()]: "An (invisible) integer
+#' code, `0` for success and non-zero for failure.  For the `"wget"`
+#' and `"curl"` methods this is the status code returned by the
+#' external program.  The `"internal"` method can return `1`, but will
 #' in most cases throw an error."
 #' @export
 #' @importFrom utils download.file

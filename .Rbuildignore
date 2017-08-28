@@ -5,6 +5,7 @@
 ^vignette-data$
 ^.*\.tar\.gz$
 ^.*\.Rcheck$
+^appveyor.yml$
 ^\.travis\.yml$
 ^.*\.log$
 ^.*\.Rproj$

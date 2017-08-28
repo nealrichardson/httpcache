@@ -31,11 +31,10 @@ clearCache <- function () {
 #'
 #' These functions provide access to what's stored in the cache.
 #' @param key character, typically a URL or similar
-#' @param value For \code{setCache}, an R object to set in the cache for
-#' \code{key}.
-#' @return \code{hitCache} returns logical whether \code{key} exists in the
-#' cache. \code{getCache} returns the value stored in the cache, or \code{NULL}
-#' if there is nothing cached. \code{setCache} is called for its side effects.
+#' @param value For `setCache`, an R object to set in the cache for `key`.
+#' @return `hitCache` returns logical whether `key` exists in the
+#' cache. `getCache` returns the value stored in the cache, or `NULL`
+#' if there is nothing cached. `setCache` is called for its side effects.
 #' @name cache-api
 #' @export
 hitCache <- function (key) {
@@ -91,8 +90,8 @@ buildCacheKey <- function (url, query=NULL, body=NULL, extras=c()) {
 #' Context manager to temporarily turn cache off if it is on
 #'
 #' If you don't want to store the response of a GET request in the cache,
-#' wrap it in \code{uncached()}. It will neither read from nor write to cache.
-#' However, \code{uncached} will not invalidate cache records, if present.
+#' wrap it in `uncached()``. It will neither read from nor write to cache.
+#' However, `uncached` will not invalidate cache records, if present.
 #'
 #' @param ... Things to evaluate with caching off
 #' @return Whatever ... returns.
@@ -108,10 +107,10 @@ uncached <- function (...) {
 
 #' Invalidate cache
 #'
-#' These functions let you control cache invalidation. \code{dropOnly}
-#' invalidates cache only for the specified URL. \code{dropPattern} uses
-#' regular expression matching to invalidate cache. \code{dropCache} is a
-#' convenience wrapper around \code{dropPattern} that invalidates cache for
+#' These functions let you control cache invalidation. `dropOnly`
+#' invalidates cache only for the specified URL. `dropPattern` uses
+#' regular expression matching to invalidate cache. `dropCache` is a
+#' convenience wrapper around `dropPattern` that invalidates cache for
 #' any resources that start with the given URL.
 #' @param x character URL or regular expression
 #' @return Nothing. Functions are run for their side effects.

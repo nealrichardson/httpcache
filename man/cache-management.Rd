@@ -2,8 +2,10 @@
 % Please edit documentation in R/cache.R
 \name{cache-management}
 \alias{cache-management}
-\alias{cacheOff}
 \alias{cacheOn}
+\alias{cacheOff}
+\alias{clearCache}
+\alias{cacheOff}
 \alias{clearCache}
 \title{Manage the HTTP cache}
 \usage{
@@ -20,4 +22,3 @@ Nothing. Functions are run for their side effects.
 These functions turn the cache on and off and clear the contents of the
 query cache.
 }
-

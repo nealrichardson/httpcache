@@ -8,8 +8,7 @@ startLog(filename = "", append = FALSE)
 }
 \arguments{
 \item{filename}{character: a filename/path where the log can be written out.
-If \code{""}, messages will print to stdout (the screen). See
-\code{\link[base]{cat}}.}
+If \code{""}, messages will print to stdout (the screen). See \code{\link[base:cat]{base::cat()}}.}
 
 \item{append}{logical: if the file already exists, append to it? Default
 is \code{FALSE}, and if not in append mode, if the \code{filename} exists,
@@ -21,4 +20,3 @@ Nothing.
 \description{
 Enable logging
 }
-

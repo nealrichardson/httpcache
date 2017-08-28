@@ -2,8 +2,8 @@
 % Please edit documentation in R/cache.R
 \name{cache-api}
 \alias{cache-api}
-\alias{getCache}
 \alias{hitCache}
+\alias{getCache}
 \alias{setCache}
 \title{HTTP Cache API}
 \usage{
@@ -16,8 +16,7 @@ setCache(key, value)
 \arguments{
 \item{key}{character, typically a URL or similar}
 
-\item{value}{For \code{setCache}, an R object to set in the cache for
-\code{key}.}
+\item{value}{For \code{setCache}, an R object to set in the cache for \code{key}.}
 }
 \value{
 \code{hitCache} returns logical whether \code{key} exists in the
@@ -27,4 +26,3 @@ if there is nothing cached. \code{setCache} is called for its side effects.
 \description{
 These functions provide access to what's stored in the cache.
 }
-
