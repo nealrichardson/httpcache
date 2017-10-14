@@ -52,5 +52,5 @@ invalidation. They have default cache-invalidation strategies, but you can
 override them as desired.
 }
 \seealso{
-\code{\link[=dropCache]{dropCache()}} \code{\link[=cachedPOST]{cachedPOST()}} \code{\link[=cachedDownload]{cachedDownload()}}
+\code{\link[=dropCache]{dropCache()}} \code{\link[=cachedPOST]{cachedPOST()}}
 }

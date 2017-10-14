@@ -156,7 +156,7 @@ public({
             "Invalid URL: c(1, 1, 1, 1, 1)",
             fixed=TRUE)
         setClass("TestS4Obj", contains="environment")
-        expect_error(cachedDownload(new("TestS4Obj")),
+        expect_error(GET(new("TestS4Obj")),
             'Invalid URL.*TestS4Obj')
     })
 })

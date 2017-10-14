@@ -24,7 +24,7 @@
 #' @importFrom digest digest
 #' @aliases GET PUT POST PATCH DELETE
 #' @name cached-http-verbs
-#' @seealso [dropCache()] [cachedPOST()] [cachedDownload()]
+#' @seealso [dropCache()] [cachedPOST()]
 #' @export
 GET <- function (url, ...) {
     validateURL(url)
