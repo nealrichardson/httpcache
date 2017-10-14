@@ -1,3 +1,7 @@
+## httpcache 1.1.0
+
+* Remove `cachedDownload`. Use `GET(url, config=write_disk(destfile))` instead, which caches normally.
+
 ### httpcache 1.0.2
 * Minor adjustment to a validation function's error message format to adapt to changes in R's development version.
 
