@@ -90,8 +90,10 @@ buildCacheKey <- function (url, query=NULL, body=NULL, extras=c()) {
 #' Context manager to temporarily turn cache off if it is on
 #'
 #' If you don't want to store the response of a GET request in the cache,
-#' wrap it in `uncached()``. It will neither read from nor write to cache.
-#' However, `uncached` will not invalidate cache records, if present.
+#' wrap it in `uncached()`. It will neither read from nor write to cache.
+#'
+#' `uncached` will not invalidate cache records, if present. It only ignores
+#' them.
 #'
 #' @param ... Things to evaluate with caching off
 #' @return Whatever ... returns.
