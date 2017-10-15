@@ -5,7 +5,7 @@
 In order to improve performance for HTTP API clients, `httpcache`
 provides simple tools for caching and invalidating cache. It includes the
 HTTP verb functions `GET`, `PUT`, `PATCH`, `POST`, and `DELETE`, which are drop-in
-replacements for those in the [httr](https://github.com/hadley/httr) package.
+replacements for those in the [httr](http://httr.r-lib.org) package.
 These functions are cache-aware and provide default settings
 for cache invalidation suitable for RESTful APIs; the package also
 enables custom cache-management strategies. Finally, `httpcache` includes
@@ -25,7 +25,7 @@ The pre-release version of the package can be pulled from GitHub using the [devt
 
 ## Getting started
 
-Working with `httpcache` is as simple as loading the package in your interactive session or script instead of `httr`, or, in package development, importing the HTTP verb functions from `httpcache`. `GET` responses are added to the local query cache until `PUT`, `PATCH`, `POST`, or `DELETE` requests trigger cache invalidation, or until you command the invalidation explicitly. See the [vignette](inst/doc/httpcache.md) for examples of the HTTP cache in practice.
+Working with `httpcache` is as simple as loading the package in your interactive session or script instead of `httr`, or, in package development, importing the HTTP verb functions from `httpcache`. `GET` responses are added to the local query cache until `PUT`, `PATCH`, `POST`, or `DELETE` requests trigger cache invalidation, or until you command the invalidation explicitly. See `vignette("httpcache")` for examples of the HTTP cache in practice.
 
 ## For developers
 
@@ -33,7 +33,7 @@ The repository includes a Makefile to facilitate some common tasks.
 
 ### Running tests
 
-`$ make test`. Requires the [httptest](https://github.com/nealrichardson/httptest) package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the [testthat](https://github.com/hadley/testthat) package.
+`$ make test`. Requires the [httptest](http://enpiar.com/r/httptest/) package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the [testthat](http://testthat.r-lib.org) package.
 
 ### Updating documentation
 

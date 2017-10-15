@@ -1,0 +1,36 @@
+navbar:
+  title: httpcache
+  type: default
+  left:
+  - text: Get Started
+    href: articles/httpcache.html
+  - text: Reference
+    href: reference/index.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/nealrichardson/httpcache
+  - icon: fa-home fa-lg
+    href: http://enpiar.com
+reference:
+- title: Main functions
+  contents:
+  - cached-http-verbs
+  - cachedPOST
+  - dropCache
+  - uncached
+- title: Logging
+  contents:
+  - halt
+  - loadLogfile
+  - logMessage
+  - requestLogSummary
+  - startLog
+  - cacheLogSummary
+- title: Cache API
+  contents:
+  - buildCacheKey
+  - cache-api
+  - cache-management
+  - saveCache
