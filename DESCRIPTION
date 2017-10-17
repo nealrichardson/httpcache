@@ -20,7 +20,7 @@ Depends:
 Imports:
     digest,
     httr (>= 1.0.0),
-    jsonlite (>= 0.9.15)
+    utils
 Suggests:
     httptest,
     knitr
