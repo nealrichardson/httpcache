@@ -10,7 +10,7 @@ saveCache(file)
 loadCache(file)
 }
 \arguments{
-\item{file}{character file path to write the cache data to, in .rds format}
+\item{file}{character file path to write the cache data to, in \code{.rds} format}
 }
 \value{
 Nothing; called for side effects.

@@ -39,7 +39,7 @@ halt <- function (..., call.=FALSE) {
 #' Enable logging
 #'
 #' @param filename character: a filename/path where the log can be written out.
-#' If `""`, messages will print to stdout (the screen). See [base::cat()].
+#' If `""`, messages will print to `stdout` (the screen). See [base::cat()].
 #' @param append logical: if the file already exists, append to it? Default
 #' is `FALSE`, and if not in append mode, if the `filename` exists,
 #' it will be deleted.

@@ -9,7 +9,7 @@ initCache()
 #'
 #' Warm your query cache from a previous session by saving out the cache and
 #' loading it back in.
-#' @param file character file path to write the cache data to, in .rds format
+#' @param file character file path to write the cache data to, in `.rds` format
 #' @return Nothing; called for side effects.
 #' @export
 saveCache <- function (file) {

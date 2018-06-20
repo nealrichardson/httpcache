@@ -22,5 +22,5 @@ and body values if provided, to be used as the cache key for this request.
 }
 \description{
 This function encapsulates the logic of making a cache key, allowing other
-code or libraries to access the HTTP cache programatically.
+code or libraries to access the HTTP cache programmatically.
 }
