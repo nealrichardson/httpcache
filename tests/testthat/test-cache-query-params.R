@@ -6,7 +6,7 @@ public({
     long.query <- list(query=paste(rep("Q", 10000), collapse=""))
     url.with.query <- paste0(base.url, "?query=", long.query[["query"]])
     test_that("Checking cache even with cache off doesn't fail on long query", {
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(z <- uncached(GET(base.url, query=long.query)),
                 url.with.query
             )
@@ -16,7 +16,7 @@ public({
 
     clearCache()
     test_that("cache gets set on GET even with long query", {
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(GET(base.url, query=long.query), url.with.query)
         })
         expect_true(hitCache(buildCacheKey(base.url, query=long.query)))

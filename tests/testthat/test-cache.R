@@ -17,7 +17,7 @@ public({
 
     test_that("Cache gets set on GET", {
         expect_length(cacheKeys(), 0)
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(a <- GET("https://app.crunch.io/api/datasets"),
                 "https://app.crunch.io/api/datasets")
             expect_GET(b <- GET("https://app.crunch.io/api/", query=list(user="me")),
@@ -42,7 +42,7 @@ public({
 
     test_that("PUT busts cache", {
         ## Now bust cache
-        with_fake_HTTP({
+        with_fake_http({
             expect_PUT(PUT("https://app.crunch.io/api/datasets"),
                 "https://app.crunch.io/api/datasets")
         })
@@ -65,7 +65,7 @@ public({
                 query=list(user="me"))), q)
         })
         ## Now bust cache
-        with_fake_HTTP({
+        with_fake_http({
             expect_PATCH(PATCH("https://app.crunch.io/api/"),
                 "https://app.crunch.io/api/")
         })
@@ -78,7 +78,7 @@ public({
     })
 
     test_that("POST busts cache more narrowly by default: setup", {
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(a <<- GET("https://app.crunch.io/api/datasets"),
                 "https://app.crunch.io/api/datasets")
             expect_GET(b <<- GET("https://app.crunch.io/api/", query=list(user="me")),
@@ -98,7 +98,7 @@ public({
             )
         })
     })
-    with_fake_HTTP({
+    with_fake_http({
         test_that("POSTing to a different resource doesn't bust cache", {
             expect_POST(p1 <- POST("https://app.crunch.io/api/"),
                 "https://app.crunch.io/api/")
@@ -117,7 +117,7 @@ public({
             )
         })
     })
-    with_fake_HTTP({
+    with_fake_http({
         test_that("POSTing busts cache narrowly", {
             expect_POST(p2 <- POST("https://app.crunch.io/api/datasets"),
                 "https://app.crunch.io/api/datasets")
@@ -136,14 +136,14 @@ public({
 
     test_that("cacheOff stops caching and clears existing cache", {
         clearCache() ## So we're clean
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(GET("https://app.crunch.io/api/datasets"))
         })
         expect_length(cacheKeys(), 1)
         cacheOff()
         on.exit(cacheOn()) ## Turn it back on
         expect_length(cacheKeys(), 0)
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(a <- GET("https://app.crunch.io/api/datasets"))
         })
         expect_length(cacheKeys(), 0)

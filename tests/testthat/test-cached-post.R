@@ -4,7 +4,7 @@ public({
     clearCache()
     test_that("Cache gets set on cachedPOST", {
         expect_length(cacheKeys(), 0)
-        with_fake_HTTP({
+        with_fake_http({
             expect_POST(a <<- cachedPOST("https://app.crunch.io/api/"),
                 "https://app.crunch.io/api/")
             expect_POST(b <<- cachedPOST("https://app.crunch.io/api/",
