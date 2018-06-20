@@ -64,7 +64,7 @@ cacheKeys <- function () ls(all.names=TRUE, envir=cache)
 #' Construct a unique cache key for a request
 #'
 #' This function encapsulates the logic of making a cache key, allowing other
-#' code or libraries to access the HTTP cache programatically.
+#' code or libraries to access the HTTP cache programmatically.
 #'
 #' @param url character request URL
 #' @param query Optional query parameters for the request

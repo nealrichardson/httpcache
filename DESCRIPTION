@@ -23,7 +23,9 @@ Imports:
     utils
 Suggests:
     httptest (>= 3.0.0),
-    knitr
+    knitr,
+    spelling
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Language: en-US
