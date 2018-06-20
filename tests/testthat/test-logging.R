@@ -5,7 +5,7 @@ public({
     startLog(logfile)
 
     test_that("Warming the cache and log", {
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(GET("https://github.com/"))
             expect_GET(GET("https://github.com/nealrichardson/"))
             try(halt("Panic!"), silent=TRUE)
@@ -53,7 +53,7 @@ public({
 
     test_that("startLog appending", {
         startLog(logfile, append=TRUE)
-        with_fake_HTTP({
+        with_fake_http({
             DELETE("https://github.com/nealrichardson/not_a_real_repo/")
         })
         loglines2 <- readLines(logfile)
@@ -67,7 +67,7 @@ public({
 
     test_that("startLog overwrites log file if exists (by default)", {
         startLog(logfile)
-        with_fake_HTTP({
+        with_fake_http({
             GET("https://github.com/")
         })
         expect_identical(pruneTimestamp(readLines(logfile)),

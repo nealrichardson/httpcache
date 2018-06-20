@@ -1,3 +1,7 @@
+## httpcache 1.1.1 (under development)
+
+* Update tests to use latest features and function naming from `httptest`
+
 ## httpcache 1.1.0
 
 * Remove `cachedDownload`. Use `GET(url, config=write_disk(destfile))` instead, which caches normally.

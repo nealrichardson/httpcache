@@ -24,7 +24,7 @@ public({
     ## Load some stuff into the cache
 
     test_that("Initial cache load", {
-        with_fake_HTTP({
+        with_fake_http({
             expect_GET(GET("https://github.com/"))
             expect_GET(GET("https://github.com/nealrichardson/"))
             expect_GET(GET("https://github.com/nealrichardson/httpcache/"))

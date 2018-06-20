@@ -18,10 +18,10 @@ time and cache performance.
 
     install.packages("httpcache")
 
-The pre-release version of the package can be pulled from GitHub using the [devtools](https://github.com/hadley/devtools) package:
+The pre-release version of the package can be pulled from GitHub using the [devtools](https://github.com/r-lib/devtools) package:
 
     # install.packages("devtools")
-    devtools::install_github("nealrichardson/httpcache", build_vignettes=TRUE)
+    devtools::install_github("nealrichardson/httpcache")
 
 ## Getting started
 
@@ -33,7 +33,7 @@ The repository includes a Makefile to facilitate some common tasks.
 
 ### Running tests
 
-`$ make test`. Requires the [httptest](http://enpiar.com/r/httptest/) package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the [testthat](http://testthat.r-lib.org) package.
+`$ make test`. Requires the [httptest](https://enpiar.com/r/httptest/) package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the [testthat](http://testthat.r-lib.org) package.
 
 ### Updating documentation
 
