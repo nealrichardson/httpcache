@@ -22,6 +22,7 @@ Imports:
     httr (>= 1.0.0),
     utils
 Suggests:
+    covr,
     httptest (>= 3.0.0),
     knitr,
     spelling

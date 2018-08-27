@@ -1,4 +1,4 @@
-url: http://enpiar.com/r/httpcache
+url: https://enpiar.com/r/httpcache
 navbar:
   title: httpcache
   type: default
@@ -6,14 +6,14 @@ navbar:
   - text: Get Started
     href: articles/httpcache.html
   - text: Reference
-    href: reference/index.html
+    href: reference/
   - text: News
-    href: news/index.html
+    href: news/
   right:
   - icon: fa-github fa-lg
     href: https://github.com/nealrichardson/httpcache
   - icon: fa-home fa-lg
-    href: http://enpiar.com
+    href: https://enpiar.com
 reference:
 - title: Main functions
   contents:
@@ -23,15 +23,15 @@ reference:
   - uncached
 - title: Logging
   contents:
+  - startLog
+  - logMessage
   - halt
   - loadLogfile
-  - logMessage
   - requestLogSummary
-  - startLog
   - cacheLogSummary
 - title: Cache API
   contents:
-  - buildCacheKey
-  - cache-api
   - cache-management
+  - cache-api
   - saveCache
+  - buildCacheKey

@@ -54,5 +54,5 @@ Logging improvements:
 
 ## httpcache 0.1.0
 
-* Extract code and tests from the [crunch](http://crunch.io/r/crunch/) package
+* Extract code and tests from the [crunch](https://crunch.io/r/crunch/) package
 * Document and export functions for caching, invalidating, and logging
