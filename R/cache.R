@@ -1,7 +1,6 @@
 caching <- function () {
     ## Default should be on, so if httpcache.on isn't set, return TRUE
-    opt <- getOption("httpcache.on")
-    return(is.null(opt) || isTRUE(opt))
+    isTRUE(getOption("httpcache.on", TRUE))
 }
 #' Manage the HTTP cache
 #'

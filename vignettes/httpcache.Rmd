@@ -1,13 +1,18 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Improving API client performance with httpcache}
--->
-
-# Improving API client performance with `httpcache`
+---
+title: "Improving API client performance with httpcache"
+description: "This vignette presents the main features of the httpcache package, showing how to use the cache-aware HTTP functions, how to invalidate cache as needed, and how to use logging to assess the performance of the cache."
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Improving API client performance with httpcache}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
 `httpcache` provides the
 HTTP verb functions `GET()`, `PUT()`, `PATCH()`, `POST()`, and `DELETE()`, which are drop-in
-replacements for those in the [httr](http://httr.r-lib.org) package. So, to take advantage of these cache-aware functions, all you need to do is load `httpcache` instead of `httr`, or in package development, import from `httpcache`.
+replacements for those in the [httr](http://httr.r-lib.org) package. `GET()` responses are added to the local query cache; `PUT()`, `PATCH()`, `POST()`, and `DELETE()` requests trigger cache invalidation on the associated resources. For APIs where a `POST` requests is used to send a command that returns content and doesn't modify state (and hence is semantically more of a `GET`), you can use `cachedPOST()`, which writes to the cache and doesn't invalidate.
+
+To take advantage of these cache-aware functions, all you need to do is load `httpcache` instead of `httr`, or in package development, import from `httpcache`.
 
 ```{r}
 library(httpcache)
@@ -50,7 +55,8 @@ Notice how the first request results in an "HTTP GET" and a "CACHE SET", while t
 
 ### Log analysis
 
-You can also pass a file name to `startLog`. This makes it easier to read the log output back in as a `data.frame` and analyze it quantitatively. We'll do an example of that below.
+You can also pass a file name to `startLog`. This makes it easier to read the log output back in as a `data.frame` and analyze it quantitatively.
+<!-- We'll do an example of that below. -->
 
 ### Custom logging
 
@@ -66,11 +72,17 @@ regular expression matching to invalidate cache. `dropCache()` is a
 convenience wrapper around `dropPattern` that invalidates cache for
 any resources that start with the given URL.
 
-Depending on the API with which you're communicating, you may not need to use those cache-invalidation functions directly, or you may need them only infrequently. `httpcache` was designed with [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) APIs in mind, particularly those that expose resources that contain collections of entities that can be created, replaced, updated, and deleted with POST, PUT, PATCH, and DELETE, respectively. Consequently, these four HTTP verb functions are built with default cache invalidation actions: `POST` invalidates cache only for the request URL (`dropOnly`), for the case where POST creates a new entity appearing as a subresource. For example, if `GET http://api.example/projects/` returns a catalog of project entities, and POST to `http://api.example/projects/` creates a resource at `http://api.example/projects/new_id/`, we need to bust cache for the project catalog on POST, but our cached responses for resources such as  `http://api.example/projects/old_id/` should still be valid. The other three functions, `PUT`, `PATCH`, and `DELETE`, by default drop cache for the request URL and everything "below" it (`dropCache`). Continuing with the example, if we modify `http://api.example/projects/new_id/`, we should invalidate cache for that resource and for other resources appearing as subresources of it, such as `http://api.example/projects/new_id/users/`.
+Depending on the API with which you're communicating, you may not need to use those cache-invalidation functions directly, or you may need them only infrequently. `httpcache` was designed with [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) APIs in mind, particularly those that expose resources that contain collections of entities that can be created, replaced, updated, and deleted ("[CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)") with POST, PUT, PATCH, and DELETE, respectively. Consequently, these four HTTP verb functions are built with default cache invalidation actions: `POST` invalidates cache only for the request URL (`dropOnly`), for the case where POST creates a new entity appearing as a subresource; while `PUT`, `PATCH`, and `DELETE` drop cache for the request URL and everything "below" it (`dropCache`).
 
-These verb functions (`POST`, `PUT`, `PATCH`, and `DELETE`) all take a `drop` argument, which defaults as described above. To override them, you can specify a different call other than `dropCache(url)` or `dropOnly(url)`, or you can pass `drop = NULL` and call the cache-invalidation functions directly. Depending on your API and your usage of it, however, `httpcache`'s cache management may just work for you with no additional effort.
+For example, if `GET http://api.example/projects/` returns a catalog of project entities, and POST to `http://api.example/projects/` creates a resource at `http://api.example/projects/new_id/`, we need to bust cache for the project catalog on POST, but our cached responses for resources such as  `http://api.example/projects/old_id/` should still be valid. But, if we modify `http://api.example/projects/new_id/`, we should invalidate cache for that resource and for other resources appearing as subresources of it, such as `http://api.example/projects/new_id/users/`.
 
-<!-- 
+These verb functions in `httpcache` (`POST()`, `PUT()`, `PATCH()`, and `DELETE()`) all take a `drop` argument, which defaults as described above. To override them, you can specify a different call other than `dropCache(url)` or `dropOnly(url)`, or you can pass `drop = NULL` and call the cache-invalidation functions directly outside of the request functions. Depending on your API and your usage of it, however, `httpcache`'s cache management may just work for you with no additional effort.
+
+## Caching across sessions
+
+The query cache you build up in one R session doesn't have to end with it. Use `saveCache()` to write out the contents of your cache to a `.rds` file. Restore it later with `loadCache()`.
+
+<!--
 ## Example
 
 For a more complete example of the caching, logging, and invalidation features, we'll use a mock HTTP interface from the `httptest` package, which allows demonstration of the features of `httpcache` without requiring a network connection.  We'll make a series of requests, both reads and writes, and we'll capture the action with the logging tools.
