@@ -1,6 +1,11 @@
-RESTful
-URI
 httr
+knitr
 programmatically
+RESTful
+rmarkdown
 subresource
 subresources
+URI
+VignetteEncoding
+VignetteEngine
+VignetteIndexEntry
