@@ -62,3 +62,10 @@ without_internet({
 })
 
 clearCache()
+
+test_that("quietly muffles messages, conditional on httpcache.debug", {
+    expect_message(quietly(message("A message!")), NA)
+    options(httpcache.debug=TRUE)
+    on.exit(options(httpcache.debug=NULL))
+    expect_message(quietly(message("A message!")), "A message!")
+})
