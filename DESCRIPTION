@@ -12,7 +12,7 @@ Description: In order to improve performance for HTTP API clients, 'httpcache'
 Version: 1.1.1
 Authors@R: c(person("Neal", "Richardson", role = c("aut", "cre"),
     email = "neal.p.richardson@gmail.com"))
-URL: http://enpiar.com/r/httpcache, https://github.com/nealrichardson/httpcache
+URL: https://enpiar.com/r/httpcache, https://github.com/nealrichardson/httpcache
 BugReports: https://github.com/nealrichardson/httpcache/issues
 License: MIT + file LICENSE
 Depends:
