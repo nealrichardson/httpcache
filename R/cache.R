@@ -135,11 +135,6 @@ dropPattern <- function (x) {
     rm(list=ls(envir=cache, pattern=x), envir=cache)
 }
 
-# dropBelow <- function (x) {
-#     ## Don't drop x, just those below it in the tree. hence ".+"
-#     dropPattern(paste0("^", regexEscape(popQuery(x)), ".+"))
-# }
-
 regexEscape <- function (x) {
     ## Escape all reserved characters that are valid URL chars with \\
     for (i in unlist(strsplit(".+?*", ""))) {

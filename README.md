@@ -25,18 +25,10 @@ The pre-release version of the package can be pulled from GitHub using the [devt
 
 ## Getting started
 
-Working with `httpcache` is as simple as loading the package in your interactive session or script instead of `httr`, or, in package development, importing the HTTP verb functions from `httpcache`. `GET()` responses are added to the local query cache; `PUT()`, `PATCH()`, `POST()`, and `DELETE()` requests trigger cache invalidation on the associated resources. You can override that default cache invalidation, and you can command the invalidation explicitly, with the invalidation functions `dropCache()`, `dropPattern()`, and `dropOnly()`. `clearCache()` wipes the cache completely.
+`httpcache` provides two ways to use its query cache. If you're writing code/a package to wrap an API, load or import the HTTP verb functions from `httpcache` instead of `httr`--no other code changes are necessary.
+
+Alternatively, if you're using someone else's package that wraps an API, you can't just change its HTTP request function to use `httpcache`, but you can still enable caching. Call `httpcache::enable()` and then all calls to `httr::GET()` will use the query cache. 
+
+`GET()` responses are added to the local query cache; `PUT()`, `PATCH()`, `POST()`, and `DELETE()` requests trigger cache invalidation on the associated resources. You can override that default cache invalidation, and you can command the invalidation explicitly, with the invalidation functions `dropCache()`, `dropPattern()`, and `dropOnly()`. `clearCache()` wipes the cache completely.
 
 See `vignette("httpcache")` for examples of the HTTP cache in practice.
-
-## For developers
-
-The repository includes a Makefile to facilitate some common tasks.
-
-### Running tests
-
-`$ make test`. Requires the [httptest](https://enpiar.com/r/httptest/) package. You can also specify a specific test file or files to run by adding a "file=" argument, like `$ make test file=logging`. `test_package` will do a regular-expression pattern match within the file names. See its documentation in the [testthat](http://testthat.r-lib.org) package.
-
-### Updating documentation
-
-`$ make doc`. Requires the [roxygen2](https://github.com/klutometis/roxygen) package.
