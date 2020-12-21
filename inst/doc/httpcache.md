@@ -23,7 +23,7 @@ system.time(a <- GET("http://httpbin.org/get"))
 ```
 
 ```
-##    user  system elapsed 
+##    user  system elapsed
 ##   0.013   0.003   0.599
 ```
 
@@ -32,7 +32,7 @@ system.time(b <- GET("http://httpbin.org/get"))
 ```
 
 ```
-##    user  system elapsed 
+##    user  system elapsed
 ##       0       0       0
 ```
 
@@ -65,7 +65,7 @@ a <- GET("http://httpbin.org/get")
 ```
 
 ```
-## 2016-02-26T23:43:16 HTTP GET http://httpbin.org/get 200 0.02644 
+## 2016-02-26T23:43:16 HTTP GET http://httpbin.org/get 200 0.02644
 ## 2016-02-26T23:43:16 CACHE SET http://httpbin.org/get
 ```
 
@@ -89,7 +89,7 @@ You may want to send other events to the log, interspersed with your HTTP reques
 
 ## Cache invalidation
 
-As the [saying (or joke, depending on the version)](http://martinfowler.com/bliki/TwoHardThings.md), cache invalidation is one of the two hard problems in computer science. The trouble with caching what the server serves is that the server is the source of truth, and if the state of data on the server changes, our local copy of the data is stale. In some applications and with some APIs, we have no idea when the server state changes, but in many cases, the source of change on the server is actions that we initiate ourselves. In these cases, a local query cache is more feasible, and cache invalidation more tractable.
+As the [saying (or joke, depending on the version)](https://martinfowler.com/bliki/TwoHardThings.md), cache invalidation is one of the two hard problems in computer science. The trouble with caching what the server serves is that the server is the source of truth, and if the state of data on the server changes, our local copy of the data is stale. In some applications and with some APIs, we have no idea when the server state changes, but in many cases, the source of change on the server is actions that we initiate ourselves. In these cases, a local query cache is more feasible, and cache invalidation more tractable.
 
 `httpcache` provides some functions to direct cache invalidation. We've seen one already, `clearCache`, which wipes the entire cache. Other functions give more surgical control. `dropOnly`
 invalidates cache only for the specified URL. `dropPattern` uses

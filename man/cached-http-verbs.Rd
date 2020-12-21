@@ -7,10 +7,6 @@
 \alias{POST}
 \alias{PATCH}
 \alias{DELETE}
-\alias{PUT}
-\alias{POST}
-\alias{PATCH}
-\alias{DELETE}
 \title{Cache-aware versions of httr verbs}
 \usage{
 GET(url, ...)

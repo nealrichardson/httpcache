@@ -5,8 +5,6 @@
 \alias{cacheOn}
 \alias{cacheOff}
 \alias{clearCache}
-\alias{cacheOff}
-\alias{clearCache}
 \title{Manage the HTTP cache}
 \usage{
 cacheOn()

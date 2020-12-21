@@ -8,7 +8,7 @@ loadLogfile(filename, scope = c("CACHE", "HTTP"))
 }
 \arguments{
 \item{filename}{character name of the log file, passed to
-\code{\link[utils:read.delim]{utils::read.delim()}}}
+\code{\link[utils:read.table]{utils::read.delim()}}}
 
 \item{scope}{character optional means of selecting only certain log
 messages. By default, only "CACHE" and "HTTP" log messages are kept. Other

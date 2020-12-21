@@ -1,4 +1,4 @@
-## httpcache 1.1.1 (under development)
+## httpcache 1.2.0
 
 * Update tests to use latest features and function naming from `httptest`
 

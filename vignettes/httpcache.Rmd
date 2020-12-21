@@ -10,7 +10,7 @@ vignette: >
 
 `httpcache` provides the
 HTTP verb functions `GET()`, `PUT()`, `PATCH()`, `POST()`, and `DELETE()`, which are drop-in
-replacements for those in the [httr](http://httr.r-lib.org) package. `GET()` responses are added to the local query cache; `PUT()`, `PATCH()`, `POST()`, and `DELETE()` requests trigger cache invalidation on the associated resources. For APIs where a `POST` requests is used to send a command that returns content and doesn't modify state (and hence is semantically more of a `GET`), you can use `cachedPOST()`, which writes to the cache and doesn't invalidate.
+replacements for those in the [httr](https://httr.r-lib.org) package. `GET()` responses are added to the local query cache; `PUT()`, `PATCH()`, `POST()`, and `DELETE()` requests trigger cache invalidation on the associated resources. For APIs where a `POST` requests is used to send a command that returns content and doesn't modify state (and hence is semantically more of a `GET`), you can use `cachedPOST()`, which writes to the cache and doesn't invalidate.
 
 To take advantage of these cache-aware functions, all you need to do is load `httpcache` instead of `httr`, or in package development, import from `httpcache`.
 
@@ -24,8 +24,8 @@ options(width=120)
 
 
 ```{r}
-system.time(a <- GET("http://httpbin.org/get"))
-system.time(b <- GET("http://httpbin.org/get"))
+system.time(a <- GET("https://httpbin.org/get"))
+system.time(b <- GET("https://httpbin.org/get"))
 ```
 
 Notice how the second request returns instantly. It's reading from cache---there's no communication with a remote server, so no network latency and no server processing time. Remember: the fastest API request is the one you don't have to make.
@@ -64,7 +64,7 @@ You may want to send other events to the log, interspersed with your HTTP reques
 
 ## Cache invalidation
 
-As the [saying (or joke, depending on the version)](http://martinfowler.com/bliki/TwoHardThings.html), cache invalidation is one of the two hard problems in computer science. The trouble with caching what the server serves is that the server is the source of truth, and if the state of data on the server changes, our local copy of the data is stale. In some applications and with some APIs, we have no idea when the server state changes, but in many cases, the source of change on the server is actions that we initiate ourselves. In these cases, a local query cache is more feasible, and cache invalidation more tractable.
+As the [saying (or joke, depending on the version)](https://martinfowler.com/bliki/TwoHardThings.html), cache invalidation is one of the two hard problems in computer science. The trouble with caching what the server serves is that the server is the source of truth, and if the state of data on the server changes, our local copy of the data is stale. In some applications and with some APIs, we have no idea when the server state changes, but in many cases, the source of change on the server is actions that we initiate ourselves. In these cases, a local query cache is more feasible, and cache invalidation more tractable.
 
 `httpcache` provides some functions to direct cache invalidation. We've seen one already, `clearCache()`, which wipes the entire cache. Other functions give more surgical control. `dropOnly()`
 invalidates cache only for the specified URL. `dropPattern()` uses
