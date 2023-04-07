@@ -1,12 +1,13 @@
-## httpcache 1.2.0
+# httpcache 1.2.0
 
 * Update tests to use latest features and function naming from `httptest`
 
-## httpcache 1.1.0
+# httpcache 1.1.0
 
 * Remove `cachedDownload`. Use `GET(url, config=write_disk(destfile))` instead, which caches normally.
 
-### httpcache 1.0.2
+# httpcache 1.0.2
+
 * Minor adjustment to a validation function's error message format to adapt to changes in R's development version.
 
 # httpcache 1.0.0
@@ -34,13 +35,15 @@ Logging improvements:
 * Trim trailing whitespace in log messages
 * Fix `loadLogfile()` for when reading a log with only CACHE messages
 
-### httpcache 0.1.8
+# httpcache 0.1.8
+
 * Include milliseconds in timestamps
 
-### httpcache 0.1.6
+# httpcache 0.1.6
+
 * Improve error message for when a non-character input is given to `GET()`
 
-### httpcache 0.1.4
+# httpcache 0.1.4
 
 * Ensure that caching is on by default
 * Change `GET()` not to check cache if an uncached request is made. Previously, `uncached()` checked cache but did not write to the cache.
@@ -48,11 +51,11 @@ Logging improvements:
 * Improve escaping of characters in URLs for dropping cache by pattern
 * Add vignette
 
-### httpcache 0.1.2
+# httpcache 0.1.2
 
 * Revise and resubmit to CRAN
 
-## httpcache 0.1.0
+# httpcache 0.1.0
 
 * Extract code and tests from the [crunch](https://crunch.io/r/crunch/) package
 * Document and export functions for caching, invalidating, and logging

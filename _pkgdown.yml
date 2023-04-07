@@ -1,4 +1,6 @@
 url: https://enpiar.com/r/httpcache
+template:
+  bootstrap: 5
 navbar:
   title: httpcache
   type: default
