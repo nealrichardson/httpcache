@@ -57,13 +57,13 @@ jobs:
           upload-snapshots: true
       
       - uses: r-lib/actions/setup-r-dependencies@v2
-        if: ${{ matrix.config.r == "release" && matrix.config.os == "ubuntu-latest" }}
+        if: ${{ matrix.config.r == 'release' && matrix.config.os == 'ubuntu-latest' }}
         with:
           extra-packages: any::covr
           needs: coverage
 
       - name: Test coverage
-        if: ${{ matrix.config.r == "release" && matrix.config.os == "ubuntu-latest" }}
+        if: ${{ matrix.config.r == 'release' && matrix.config.os == 'ubuntu-latest' }}
         run: |
           covr::codecov(
             quiet = FALSE,
