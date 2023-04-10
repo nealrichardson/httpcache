@@ -27,7 +27,7 @@ responseStatusLog <- function(response) {
 #' Stop, log, and no call
 #'
 #' Wrapper around [base::stop()] that logs the error message and then stops
-#' with call. = FALSE by default.
+#' with `call. = FALSE` by default.
 #' @param ... arguments passed to `stop`
 #' @param call. logical: print the call? Default is `FALSE`, unlike `stop`
 #' @return Nothing. Raises an error.

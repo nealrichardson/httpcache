@@ -16,5 +16,5 @@ Nothing. Raises an error.
 }
 \description{
 Wrapper around \code{\link[base:stop]{base::stop()}} that logs the error message and then stops
-with call. = FALSE by default.
+with \code{call. = FALSE} by default.
 }
