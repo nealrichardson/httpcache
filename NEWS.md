@@ -1,3 +1,8 @@
+# httpcache 1.2.0.9000
+
+* `withCache(x, ...)` lets you evaluate code blocks with different cache environments
+* `loadCache()` accepts an `environment` from the current R session to use as a cache, in addition to a string file path of a saved environment.
+
 # httpcache 1.2.0
 
 * Update tests to use latest features and function naming from `httptest`

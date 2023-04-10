@@ -9,7 +9,7 @@ Description: In order to improve performance for HTTP API clients, 'httpcache'
     APIs; the package also enables custom cache-management strategies.
     Finally, 'httpcache' includes a basic logging framework to facilitate the
     measurement of HTTP request time and cache performance.
-Version: 1.2.0
+Version: 1.2.0.9000
 Authors@R: c(person("Neal", "Richardson", role = c("aut", "cre"),
     email = "neal.p.richardson@gmail.com"))
 URL: https://enpiar.com/r/httpcache/, https://github.com/nealrichardson/httpcache/
