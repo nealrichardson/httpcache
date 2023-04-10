@@ -12,6 +12,8 @@ cache <- function() {
 #'
 #' Warm your query cache from a previous session by saving out the cache and
 #' loading it back in.
+#' @param x for `loadCache()`, either an `environment` or a string path to one
+#' saved in an `.rds` file
 #' @param file character file path to write the cache data to, in `.rds` format
 #' @return Nothing; called for side effects.
 #' @export
@@ -21,11 +23,13 @@ saveCache <- function(file) {
 
 #' @rdname saveCache
 #' @export
-loadCache <- function(file) {
-  env <- readRDS(file)
-  if (!is.environment(env)) {
+loadCache <- function(x) {
+  if (is.character(x)) {
+    x <- readRDS(x)
+  }
+  if (!is.environment(x)) {
     halt("'loadCache' requires an .rds file containing an environment")
   }
-  options(httpcache.env = env)
+  options(httpcache.env = x)
   invisible(NULL)
 }
