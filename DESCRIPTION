@@ -26,7 +26,7 @@ Suggests:
     knitr,
     rmarkdown,
     spelling
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Language: en-US

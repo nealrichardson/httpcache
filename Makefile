@@ -1,15 +1,15 @@
 VERSION = $(shell grep ^Version DESCRIPTION | sed s/Version:\ //)
 
 doc:
-	R --slave -e 'library(roxygen2); roxygenise()'
+	R -s -e 'library(roxygen2); roxygenise()'
 	git add --all man/*.Rd
 
 test:
 	R CMD INSTALL --install-tests .
-	export NOT_CRAN=true && R --slave -e 'library(httptest); setwd(file.path(.libPaths()[1], "httpcache", "tests")); system.time(test_check("httpcache", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
+	export NOT_CRAN=true && R -s -e 'library(httptest); setwd(file.path(.libPaths()[1], "httpcache", "tests")); system.time(test_check("httpcache", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
 
 deps:
-	R --slave -e 'install.packages(c("httr", "codetools", "testthat", "devtools", "digest"), repo="http://cran.at.r-project.org", lib=ifelse(nchar(Sys.getenv("R_LIB")), Sys.getenv("R_LIB"), .libPaths()[1]))'
+	R -s -e 'install.packages(c("httr", "codetools", "testthat", "devtools", "digest"), repo="http://cran.at.r-project.org", lib=ifelse(nchar(Sys.getenv("R_LIB")), Sys.getenv("R_LIB"), .libPaths()[1]))'
 
 build: doc
 	R CMD build .
@@ -42,7 +42,13 @@ build-vignettes: md
 	open inst/doc/getting-started.html
 
 covr:
-	R --slave -e 'library(covr); cv <- package_coverage(); df <- covr:::to_shiny_data(cv)[["file_stats"]]; cat("Line coverage:", round(100*sum(df[["Covered"]])/sum(df[["Relevant"]]), 1), "percent\\n")'
+	R -s -e 'library(covr); cv <- package_coverage(); df <- covr:::to_shiny_data(cv)[["file_stats"]]; cat("Line coverage:", round(100*sum(df[["Covered"]])/sum(df[["Relevant"]]), 1), "percent\\n")'
+
+style:
+	R -s -e 'setwd(".."); if (requireNamespace("styler")) styler::style_file(system("git diff --name-only | grep r/.*R$$", intern = TRUE))'
+
+style-all:
+	R -s -e 'styler::style_file(dir(pattern = "R$$", recursive = TRUE))'
 
 build-pkgdown:
 	R -e 'pkgdown::build_site()'

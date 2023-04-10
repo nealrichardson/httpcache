@@ -1,6 +1,6 @@
-caching <- function () {
-    ## Default should be on, so if httpcache.on isn't set, return TRUE
-    isTRUE(getOption("httpcache.on", TRUE))
+caching <- function() {
+  # Default should be on, so if httpcache.on isn't set, return TRUE
+  isTRUE(getOption("httpcache.on", TRUE))
 }
 #' Manage the HTTP cache
 #'
@@ -10,20 +10,20 @@ caching <- function () {
 #' @aliases cacheOn cacheOff clearCache
 #' @name cache-management
 #' @export
-cacheOn <- function () options(httpcache.on=TRUE)
+cacheOn <- function() options(httpcache.on = TRUE)
 
 #' @rdname cache-management
 #' @export
-cacheOff <- function () {
-    options(httpcache.on=FALSE)
-    clearCache()
+cacheOff <- function() {
+  options(httpcache.on = FALSE)
+  clearCache()
 }
 
 #' @rdname cache-management
 #' @export
-clearCache <- function () {
-    logMessage("CACHE CLEAR")
-    rm(list=cacheKeys(), envir=cache)
+clearCache <- function() {
+  logMessage("CACHE CLEAR")
+  rm(list = cacheKeys(), envir = cache)
 }
 
 #' HTTP Cache API
@@ -36,29 +36,29 @@ clearCache <- function () {
 #' if there is nothing cached. `setCache` is called for its side effects.
 #' @name cache-api
 #' @export
-hitCache <- function (key) {
-    exists(key, envir=cache)
+hitCache <- function(key) {
+  exists(key, envir = cache)
 }
 
 #' @rdname cache-api
 #' @export
-getCache <- function (key) {
-    if (hitCache(key)) {
-        logMessage("CACHE HIT", key)
-        return(get(key, envir=cache))
-    } else {
-        return(NULL)
-    }
+getCache <- function(key) {
+  if (hitCache(key)) {
+    logMessage("CACHE HIT", key)
+    return(get(key, envir = cache))
+  } else {
+    return(NULL)
+  }
 }
 
 #' @rdname cache-api
 #' @export
-setCache <- function (key, value) {
-    logMessage("CACHE SET", key)
-    assign(key, value, envir=cache)
+setCache <- function(key, value) {
+  logMessage("CACHE SET", key)
+  assign(key, value, envir = cache)
 }
 
-cacheKeys <- function () ls(all.names=TRUE, envir=cache)
+cacheKeys <- function() ls(all.names = TRUE, envir = cache)
 
 #' Construct a unique cache key for a request
 #'
@@ -73,17 +73,17 @@ cacheKeys <- function () ls(all.names=TRUE, envir=cache)
 #' @return Character value, starting with \code{url} and including hashed query
 #' and body values if provided, to be used as the cache key for this request.
 #' @export
-buildCacheKey <- function (url, query=NULL, body=NULL, extras=c()) {
-    if (!is.null(query)) {
-        extras <- c(extras, paste0("QUERY=", digest(query)))
-    }
-    if (!is.null(body)) {
-        extras <- c(extras, paste0("BODY=", digest(body)))
-    }
-    if (length(extras)) {
-        url <- paste(url, paste0(extras, collapse="&"), sep="?")
-    }
-    return(url)
+buildCacheKey <- function(url, query = NULL, body = NULL, extras = c()) {
+  if (!is.null(query)) {
+    extras <- c(extras, paste0("QUERY=", digest(query)))
+  }
+  if (!is.null(body)) {
+    extras <- c(extras, paste0("BODY=", digest(body)))
+  }
+  if (length(extras)) {
+    url <- paste(url, paste0(extras, collapse = "&"), sep = "?")
+  }
+  return(url)
 }
 
 #' Context manager to temporarily turn cache off if it is on
@@ -99,11 +99,11 @@ buildCacheKey <- function (url, query=NULL, body=NULL, extras=c()) {
 #' @examples
 #' uncached(GET("http://httpbin.org/get"))
 #' @export
-uncached <- function (...) {
-    old <- getOption("httpcache.on")
-    on.exit(options(httpcache.on=old))
-    options(httpcache.on=FALSE)
-    eval.parent(...)
+uncached <- function(...) {
+  old <- getOption("httpcache.on")
+  on.exit(options(httpcache.on = old))
+  options(httpcache.on = FALSE)
+  eval.parent(...)
 }
 
 #' Invalidate cache
@@ -116,39 +116,34 @@ uncached <- function (...) {
 #' @param x character URL or regular expression
 #' @return Nothing. Functions are run for their side effects.
 #' @export
-dropCache <- function (x) {
-    ## Drop x and anything below it in the tree
-    dropPattern(paste0("^", regexEscape(popQuery(x))))
+dropCache <- function(x) {
+  # Drop x and anything below it in the tree
+  dropPattern(paste0("^", regexEscape(popQuery(x))))
 }
 
 #' @rdname dropCache
 #' @export
-dropOnly <- function (x) {
-    logMessage("CACHE DROP", x)
-    suppressWarnings(rm(list=x, envir=cache))
+dropOnly <- function(x) {
+  logMessage("CACHE DROP", x)
+  suppressWarnings(rm(list = x, envir = cache))
 }
 
 #' @rdname dropCache
 #' @export
-dropPattern <- function (x) {
-    logMessage("CACHE DROP", x)
-    rm(list=ls(envir=cache, pattern=x), envir=cache)
+dropPattern <- function(x) {
+  logMessage("CACHE DROP", x)
+  rm(list = ls(envir = cache, pattern = x), envir = cache)
 }
 
-# dropBelow <- function (x) {
-#     ## Don't drop x, just those below it in the tree. hence ".+"
-#     dropPattern(paste0("^", regexEscape(popQuery(x)), ".+"))
-# }
-
-regexEscape <- function (x) {
-    ## Escape all reserved characters that are valid URL chars with \\
-    for (i in unlist(strsplit(".+?*", ""))) {
-        x <- gsub(paste0("(\\", i, ")"), "[\\1]", x)
-    }
-    return(x)
+regexEscape <- function(x) {
+  # Escape all reserved characters that are valid URL chars with \\
+  for (i in unlist(strsplit(".+?*", ""))) {
+    x <- gsub(paste0("(\\", i, ")"), "[\\1]", x)
+  }
+  return(x)
 }
 
-popQuery <- function (x) {
-    ## Remove query parameters from a URL
-    return(sub("\\?.*$", "", x))
+popQuery <- function(x) {
+  # Remove query parameters from a URL
+  return(sub("\\?.*$", "", x))
 }
