@@ -32,11 +32,44 @@ public({
 
     test_that("Can load cache and read from it as before", {
       loadCache(f)
+      on.exit(clearCache())
       # Now read from cache
       expect_no_request(
         expect_identical(GET("https://app.crunch.io/api/datasets"), a)
       )
     })
+
+    test_that("Can load cache as environment", {
+      old_cache <- readRDS(f)
+      expect_is(old_cache, "environment")
+
+      loadCache(old_cache)
+      on.exit(clearCache())
+      # Now read from cache
+      expect_no_request(
+        expect_identical(GET("https://app.crunch.io/api/datasets"), a)
+      )
+    })
+test_that("withCache()", {
+  expect_length(cacheKeys(), 0)
+  expect_GET(
+    GET("https://app.crunch.io/api/datasets"),
+    "https://app.crunch.io/api/datasets"
+  )
+
+  withCache(f, {
+    expect_length(cacheKeys(), 2)
+    expect_no_request(
+      expect_identical(GET("https://app.crunch.io/api/datasets"), a)
+    )
+  })
+
+  expect_length(cacheKeys(), 0)
+  expect_GET(
+    GET("https://app.crunch.io/api/datasets"),
+    "https://app.crunch.io/api/datasets"
+  )
+})
   })
 
   test_that("loadCache error handling", {

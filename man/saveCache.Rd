@@ -3,19 +3,29 @@
 \name{saveCache}
 \alias{saveCache}
 \alias{loadCache}
+\alias{withCache}
 \title{Save and load cache state}
 \usage{
 saveCache(file)
 
-loadCache(file)
+loadCache(x)
+
+withCache(x, ...)
 }
 \arguments{
 \item{file}{character file path to write the cache data to, in \code{.rds} format}
+
+\item{x}{for \code{loadCache()} and \code{withCache()}, either an \code{environment} or a
+string path to one saved in an \code{.rds} file}
+
+\item{...}{code to evaluate using the cache in \code{x}}
 }
 \value{
-Nothing; called for side effects.
+\code{withCache()} returns the value of \code{...}. \code{saveCache()} and
+\code{loadCache()} return nothing.
 }
 \description{
 Warm your query cache from a previous session by saving out the cache and
-loading it back in.
+loading it back in. \code{withCache()} wraps \code{loadCache()} and restores the
+previous cache after evaluating the code
 }
