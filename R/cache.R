@@ -23,7 +23,7 @@ cacheOff <- function() {
 #' @export
 clearCache <- function() {
   logMessage("CACHE CLEAR")
-  rm(list = cacheKeys(), envir = cache)
+  rm(list = cacheKeys(), envir = cache())
 }
 
 #' HTTP Cache API
@@ -37,7 +37,7 @@ clearCache <- function() {
 #' @name cache-api
 #' @export
 hitCache <- function(key) {
-  exists(key, envir = cache)
+  exists(key, envir = cache())
 }
 
 #' @rdname cache-api
@@ -45,7 +45,7 @@ hitCache <- function(key) {
 getCache <- function(key) {
   if (hitCache(key)) {
     logMessage("CACHE HIT", key)
-    return(get(key, envir = cache))
+    return(get(key, envir = cache()))
   } else {
     return(NULL)
   }
@@ -55,10 +55,10 @@ getCache <- function(key) {
 #' @export
 setCache <- function(key, value) {
   logMessage("CACHE SET", key)
-  assign(key, value, envir = cache)
+  assign(key, value, envir = cache())
 }
 
-cacheKeys <- function() ls(all.names = TRUE, envir = cache)
+cacheKeys <- function() ls(all.names = TRUE, envir = cache())
 
 #' Construct a unique cache key for a request
 #'
@@ -125,14 +125,14 @@ dropCache <- function(x) {
 #' @export
 dropOnly <- function(x) {
   logMessage("CACHE DROP", x)
-  suppressWarnings(rm(list = x, envir = cache))
+  suppressWarnings(rm(list = x, envir = cache()))
 }
 
 #' @rdname dropCache
 #' @export
 dropPattern <- function(x) {
   logMessage("CACHE DROP", x)
-  rm(list = ls(envir = cache, pattern = x), envir = cache)
+  rm(list = ls(envir = cache(), pattern = x), envir = cache())
 }
 
 regexEscape <- function(x) {

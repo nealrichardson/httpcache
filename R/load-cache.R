@@ -1,9 +1,12 @@
-# Create the cache env
-cache <- NULL
-initCache <- function() {
-  cache <<- new.env(hash = TRUE)
+cache <- function() {
+  cache_env <- getOption("httpcache.env")
+  if (!inherits(cache_env, "environment")) {
+    # No/invalid cache object; create one now
+    cache_env <- new.env(hash = TRUE)
+    options(httpcache.env = cache_env)
+  }
+  cache_env
 }
-initCache()
 
 #' Save and load cache state
 #'
@@ -13,7 +16,7 @@ initCache()
 #' @return Nothing; called for side effects.
 #' @export
 saveCache <- function(file) {
-  saveRDS(cache, file = file)
+  saveRDS(cache(), file = file)
 }
 
 #' @rdname saveCache
@@ -23,9 +26,6 @@ loadCache <- function(file) {
   if (!is.environment(env)) {
     halt("'loadCache' requires an .rds file containing an environment")
   }
-  # Copy the values over
-  for (key in ls(all.names = TRUE, envir = env)) {
-    setCache(key, get(key, env))
-  }
+  options(httpcache.env = env)
   invisible(NULL)
 }
