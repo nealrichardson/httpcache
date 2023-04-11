@@ -23,7 +23,7 @@ cacheOff <- function () {
 #' @export
 clearCache <- function () {
     logMessage("CACHE CLEAR")
-    rm(list=cacheKeys(), envir=cache)
+    rm(list=cacheKeys(), envir = identifyCache())
 }
 
 #' HTTP Cache API
@@ -37,7 +37,7 @@ clearCache <- function () {
 #' @name cache-api
 #' @export
 hitCache <- function (key) {
-    exists(key, envir=cache)
+    exists(key, envir = identifyCache())
 }
 
 #' @rdname cache-api
@@ -45,7 +45,7 @@ hitCache <- function (key) {
 getCache <- function (key) {
     if (hitCache(key)) {
         logMessage("CACHE HIT", key)
-        return(get(key, envir=cache))
+        return(get(key, envir = identifyCache()))
     } else {
         return(NULL)
     }
@@ -55,10 +55,12 @@ getCache <- function (key) {
 #' @export
 setCache <- function (key, value) {
     logMessage("CACHE SET", key)
-    assign(key, value, envir=cache)
+    assign(key, value, envir = identifyCache())
 }
 
-cacheKeys <- function () ls(all.names=TRUE, envir=cache)
+cacheKeys <- function (){
+    setdiff(ls(all.names=TRUE, envir = identifyCache()), cache_identifier_key)
+}
 
 #' Construct a unique cache key for a request
 #'
@@ -125,14 +127,14 @@ dropCache <- function (x) {
 #' @export
 dropOnly <- function (x) {
     logMessage("CACHE DROP", x)
-    suppressWarnings(rm(list=x, envir=cache))
+    suppressWarnings(rm(list=x, envir=identifyCache()))
 }
 
 #' @rdname dropCache
 #' @export
 dropPattern <- function (x) {
     logMessage("CACHE DROP", x)
-    rm(list=ls(envir=cache, pattern=x), envir=cache)
+    rm(list=ls(envir=cache, pattern=x), envir=identifyCache())
 }
 
 # dropBelow <- function (x) {

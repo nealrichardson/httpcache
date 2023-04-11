@@ -1,9 +1,23 @@
+
 ## Create the cache env
 cache <- NULL
 initCache <- function () {
     cache <<- new.env(hash=TRUE)
 }
+cache_identifier_key <- '__CACHE_IDENTIFIER_FUNCTION__'
+#' @export
+registerCache <- function(fn){
+    stopifnot(
+        'fn must be a function' = is.function(fn)
+    )
+    assign(cache_identifier_key, fn, envir=cache)
+}
+identifyCache <- function(){
+    idfun <- get(cache_identifier_key, envir = cache)
+    idfun()
+}
 initCache()
+registerCache(function() cache)
 
 #' Save and load cache state
 #'
@@ -13,7 +27,7 @@ initCache()
 #' @return Nothing; called for side effects.
 #' @export
 saveCache <- function (file) {
-    saveRDS(cache, file=file)
+    saveRDS(identifyCache(), file=file)
 }
 
 #' @rdname saveCache
